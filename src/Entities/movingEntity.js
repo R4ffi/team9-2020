@@ -10,20 +10,20 @@ export default class MovingEntity extends Component {
     const { club, skinColor } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
 
-    this.x = (this.props.body.position.x) - Constants.SPEED;
-    if (this.x <= 0) {
-        this.x = Constants.MAX_WIDTH;
+    let x = (this.props.body.position.x) - Constants.SPEED;
+    if (x <= 0) {
+        x = Constants.MAX_WIDTH;
     }
 
     const y = (this.props.body.position.y) - size/2;
-    Matter.Body.setPosition(this.props.body, { x: this.x, y: this.props.body.position.y})
+    Matter.Body.setPosition(this.props.body, { x: x, y: this.props.body.position.y})
     return (
         <div
             style={{
             position: "absolute",
             width: size,
             height: size,
-            left: this.x - 30,
+            left: x - 30,
             top: y,
             }}
         >
