@@ -25,18 +25,16 @@ export default class SimpleGame extends PureComponent {
   }
 
   setupWorld = () => {
-    let engine = Matter.Engine.create({ enableSleeping: false });
+    let engine = Matter.Engine.create();
     let world = engine.world;
     world.gravity.y = 0.5;
-
-    let myGoal = Matter.Bodies.rectangle(0, 0, 0, 0);
-
-    let ball = Matter.Bodies.rectangle(
+    let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
-      30,
-      30
-    );
+      15,
+      );
+    let myGoal = Matter.Bodies.rectangle(0, 0, 0, 0);
+    
     ball.label = "ball";
 
     let floor1 = Matter.Bodies.rectangle(
@@ -46,15 +44,17 @@ export default class SimpleGame extends PureComponent {
       200,
       { isStatic: true }
     );
-
-    floor1.label = "floor";
-
+    floor1.label = 'floor';
     let player1 = Matter.Bodies.rectangle(
       0,
       Constants.MAX_HEIGHT - 500,
       60,
-      120
+      120,
+      {
+        inertia: Infinity,
+    }
     );
+    
 
     player1.label = "player1";
     Matter.World.add(world, [ball, floor1, player1]);
@@ -108,7 +108,6 @@ export default class SimpleGame extends PureComponent {
       });
     }
   };
-
   render() {
     return (
       <GameEngine
@@ -118,7 +117,6 @@ export default class SimpleGame extends PureComponent {
       ></GameEngine>
     );
   }
-
   bodiesAreColliding(pair, nameA, nameB) {
     return (
       (pair.bodyB.label === nameA && pair.bodyA.label === nameB) ||
