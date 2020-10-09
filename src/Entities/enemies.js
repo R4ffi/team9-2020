@@ -1,11 +1,14 @@
-import Constants, {  GetAbsolutHeightPosition,  GetAbsolutWidthPosition,} from "../Constants";
+import Constants, {
+  GetAbsolutHeightPosition,
+  GetAbsolutWidthPosition,
+} from "../Constants";
 import EnemyPlayer from "../Entities/enemyPlayer";
 import Matter from "matter-js";
 import { club } from "../Constants/club";
 import { skinColor } from "../Constants/skinColor";
 
 export function addEnemies(engine) {
-  const enemies = [newEnemy(3000), newEnemy(10000)];
+  const enemies = [newEnemy(GetAbsolutWidthPosition(100))];
 
   Matter.World.add(engine.world, enemies);
 
@@ -14,12 +17,6 @@ export function addEnemies(engine) {
       body: enemies[0],
       renderer: EnemyPlayer,
       skinColor: skinColor.black,
-      club: club.luzern,
-    },
-    enemy2: {
-      body: enemies[1],
-      renderer: EnemyPlayer,
-      skinColor: skinColor.latin,
       club: club.luzern,
     },
   };
@@ -36,6 +33,7 @@ function newEnemy(xPosition) {
     }
   );
 
-  body.label = "blabla";
+  body.mass = 10;
+  body.inverseMass = 1 / 10;
   return body;
 }

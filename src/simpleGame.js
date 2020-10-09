@@ -62,15 +62,21 @@ export default class SimpleGame extends PureComponent {
       }
     );
     player1.label = "player1";
+    player1.mass = 1;
+    player1.inverseMass = 1;
 
     Matter.World.add(world, [ball, floor1, player1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if (event.pairs.filter((element) => this.bodiesAreColliding(element, "player1", "ball")).length !== 0) {
+      if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "player1", "ball")
+        ).length !== 0
+      ) {
         if (this.isGoal) {
           ball.isNotFixed = true;
           Matter.Body.setVelocity(ball, {
             x: GetAbsolutWidthPosition(1),
-            y: ball.velocity.y
+            y: ball.velocity.y,
           });
         } else {
           Matter.Body.setVelocity(ball, {
@@ -79,7 +85,12 @@ export default class SimpleGame extends PureComponent {
           });
         }
         this.gameEngine.dispatch({ type: "score" });
-      } else if (event.pairs.filter((element) => this.bodiesAreColliding(element, "floor", "ball")).length !== 0 && !this.isGoal) {
+      } else if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "floor", "ball")
+        ).length !== 0 &&
+        !this.isGoal
+      ) {
         //The ball collided with the floor.
         this.gameEngine.dispatch({ type: "game-over" });
       }
@@ -101,7 +112,15 @@ export default class SimpleGame extends PureComponent {
         club: club.yb,
       },
 
-      bg: { stadium, city, goalReached: () => { this.gameEngine.dispatch({ type: "goal-reached" }); console.log("goal reached") }, renderer: Background },
+      bg: {
+        stadium,
+        city,
+        goalReached: () => {
+          this.gameEngine.dispatch({ type: "goal-reached" });
+          console.log("goal reached");
+        },
+        renderer: Background,
+      },
     };
   };
 
