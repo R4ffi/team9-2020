@@ -8,7 +8,6 @@ class Player extends PureComponent {
     const y = this.props.y - size / 2;
     const { club, skinColor } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
-
     
     return (
       <div

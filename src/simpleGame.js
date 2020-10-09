@@ -74,7 +74,7 @@ export default class SimpleGame extends PureComponent {
         physics: { engine: engine, world: world },
         ball: {body: ball, renderer: Ball},
         floor1: { body: floor1, renderer: Floor },
-        player1: { body: player1, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
+        player1: { body: player1, input: this.input, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
     }
   }
   onEvent = (e) => {

@@ -1,4 +1,3 @@
-import Constants from "../Constants";
 import React, { Component } from "react";
 import soccerBall from "../Assets/Images/soccer-ball.svg";
 
