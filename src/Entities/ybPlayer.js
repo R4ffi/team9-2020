@@ -14,8 +14,8 @@ export default class YbPlayer extends Component {
     if (x <= 0) {
       x = Constants.MAX_WIDTH;
     }
-    if(x >= Constants.MAX_WIDTH - size / 2){
-      x = Constants.MAX_WIDTH - size / 2
+    if (x >= Constants.MAX_WIDTH - sizeX / 2) {
+      x = Constants.MAX_WIDTH - sizeX / 2;
     }
 
     const y = this.props.body.position.y - sizeY / 2;
