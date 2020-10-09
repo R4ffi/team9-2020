@@ -12,6 +12,11 @@ const MoveBox = (entities, { input }) => {
     box1.x = payload.pageX;
     box1.y = payload.pageY;
   }
+  const box2 = entities["box2"];
+  if(box2.x < 99){
+    box2.x = 700
+  }
+  box2.x -= 4;
 
   return entities;
 };
