@@ -18,6 +18,7 @@ export default class SimpleGame extends PureComponent {
   constructor(props) {
     super(props);
     this.playerHeight = 10;
+    this.isGoal = false;
     this.state = {
       running: true,
       score: 0,
@@ -35,12 +36,13 @@ export default class SimpleGame extends PureComponent {
     let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       0,
-      GetAbsolutHeightPosition(2)
+      GetAbsolutHeightPosition(3)
     );
     const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
     const city = Matter.Bodies.rectangle(0, 0, 0, 0);
 
     ball.label = "ball";
+    ball.isNotFixed = false;
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
@@ -72,17 +74,25 @@ export default class SimpleGame extends PureComponent {
           this.bodiesAreColliding(element, "player1", "ball")
         ).length !== 0
       ) {
+        if(this.isGoal){
+          ball.isNotFixed = true;
+          Matter.Body.setVelocity(ball, {
+            x:  GetAbsolutWidthPosition(1),
+            y:  ball.velocity.y
+          });
+      }else{
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
           y: -GetAbsolutWidthPosition(1),
         });
+      }
         this.gameEngine.dispatch({ type: "score"});
 
       } else if (
         event.pairs.filter((element) =>
           this.bodiesAreColliding(element, "floor", "ball")
           //The ball collided with the floor.
-        ).length !== 0
+        ).length !== 0 && !this.isGoal
       ) {
         this.gameEngine.dispatch({ type: "game-over"});
       }
@@ -94,6 +104,8 @@ export default class SimpleGame extends PureComponent {
       floor1: { body: floor1, renderer: Floor },
       player1: {
         body: player1,
+        stadium,
+        city,
         renderer: YbPlayer,
         skinColor: skinColor.latin,
         club: club.yb,
@@ -104,7 +116,7 @@ export default class SimpleGame extends PureComponent {
         skinColor: skinColor.black,
         club: club.luzern,
       },
-      bg: { stadium, city, renderer: Background },
+      bg: { stadium, city, goalReached: () => {this.gameEngine.dispatch({ type: "goal-reached"}); console.log("goal reached")}, renderer: Background },
     };
   };
 
@@ -119,6 +131,8 @@ export default class SimpleGame extends PureComponent {
       this.setState({
         score: this.state.score + 1,
       });
+    } else if (e.type === "goal-reached") {
+      this.isGoal = true;
     }
   };
 

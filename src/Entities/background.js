@@ -7,9 +7,14 @@ import stadium from "../Assets/Images/stadium.png";
 const Background = (props) => {
   const stadiumImage = useRef(null);
   const cityImage = useRef(null);
-
   let stadiumX = props.stadium.position.x - Constants.SPEED_STADIUM;
   let cityX = props.city.position.x - Constants.SPEED_CITY;
+  if (
+    stadiumImage.current && stadiumImage.current.width > 0 &&
+    stadiumX - Constants.MAX_WIDTH*1.5 < -stadiumImage.current.width
+  ){
+    props.goalReached();
+  }
 
   if (
     stadiumImage.current &&
@@ -24,7 +29,6 @@ const Background = (props) => {
   ) {
     cityX = 0;
   }
-
   Matter.Body.setPosition(props.stadium, {
     x: stadiumX,
     y: props.stadium.position.y,

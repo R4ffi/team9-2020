@@ -4,6 +4,7 @@ import Matter from "matter-js";
 import { clubColor } from "../Constants/clubColor";
 
 export default class YbPlayer extends Component {
+
   render() {
     const sizeY = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
     const sizeX = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
