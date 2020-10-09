@@ -24,15 +24,13 @@ export default class SimpleGame extends PureComponent {
   }
 
   setupWorld = () => {
-    let engine = Matter.Engine.create({ enableSleeping: false });
+    let engine = Matter.Engine.create();
     let world = engine.world;
     world.gravity.y = 0.5;
-
-    let ball = Matter.Bodies.rectangle(
+    let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
-      30,
-      30,
+      15,
     );
     ball.label = 'ball';
 
@@ -45,13 +43,16 @@ export default class SimpleGame extends PureComponent {
     );
 
     floor1.label = 'floor';
-
     let player1 = Matter.Bodies.rectangle(
       0,
       Constants.MAX_HEIGHT - 500,
       60,
       120,
+      {
+        inertia: Infinity,
+    }
     );
+    
 
     player1.label = 'player1';
     Matter.World.add(world, [ball, floor1, player1]);
@@ -74,23 +75,9 @@ export default class SimpleGame extends PureComponent {
         physics: { engine: engine, world: world },
         ball: {body: ball, renderer: Ball},
         floor1: { body: floor1, renderer: Floor },
-        player1: { body: player1, input: this.input, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
+        player1: { body: player1, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen, size: 120 },
     }
   }
-  onEvent = (e) => {
-    if (e.type === "game-over") {
-      //Alert.alert("Game Over");
-      this.setState({
-        running: false,
-      });
-    } else if (e.type === "score") {
-      //Alert.alert("Score!");
-      this.setState({
-        score: this.state.score + 1,
-      });
-    }
-  };
-
   render() {
     return (
       <GameEngine
@@ -101,7 +88,6 @@ export default class SimpleGame extends PureComponent {
       ></GameEngine>
     );
   }
-
   bodiesAreColliding(pair, nameA, nameB) {
     return (pair.bodyB.label === nameA && pair.bodyA.label === nameB) || (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
   }

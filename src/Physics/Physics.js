@@ -13,7 +13,7 @@ const Physics = (entities, { touches, time, input }) => {
             movment *= -1;
         }
 
-        Matter.Body.setVelocity(player.body, { x: movment, y: 0 });
+        Matter.Body.setVelocity(player.body, Matter.Vector.create(movment, 0));
     }
 
     //Claculate gravitiy stuff
