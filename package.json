@@ -10,6 +10,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-game-engine": "^1.0.0",
+    "react-native": "^0.63.3",
     "react-scripts": "3.4.3"
   },
   "scripts": {
