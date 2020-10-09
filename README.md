@@ -1,38 +1,68 @@
-# YB Hackathon 2020 Starter Template
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This is the Microsoft Azure Hackathon Starter for the Young Boys Bern Hackathon 2020: 
-on Oct 09. - Oct 10. 2020
-see https://hackathon.bscyb.ch/en
+## Available Scripts
 
+In the project directory, you can run:
 
-## What is this ?
+### `yarn start`
 
-This is an Azure Static Web App (SWA). 
-See https://aka.ms/staticwebapps for details.
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-The web app contains links, docs, examples and other material for teams to get started quickly with the Hackathon challenges.
+### `yarn test`
 
-A running version of this here: http://aka.ms/YBHackathonStarter
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `yarn build`
 
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-## How do I use this Template for my own App?
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-1. Fork this repo on GitHub. It's a Template repository, so just click the green 
-[![Use this Template button](https://github.com/faxg/ybhackathon-starter/blob/master/app/public/img/use-this-template.png?raw=true)](https://github.com/faxg/ybhackathon-starter/generate) button
+### `yarn eject`
 
-2. Go to your new repository and then: 
-[![Deploy to Azure button](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/?feature.customportal=false#create/Microsoft.StaticApp)
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-## Prerequisites
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-- A GitHub account
-- [Node.js and Git](https://nodejs.org/)
-- [Visual Studio Code](https://code.visualstudio.com/) installed
-- The [Azure Functions extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions) installed
-- The [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local) installed
+## Learn More
 
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `yarn build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
