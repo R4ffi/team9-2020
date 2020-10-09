@@ -133,18 +133,15 @@ export default class SimpleGame extends PureComponent {
         onEvent={this.onEvent}
         entities={this.entities}
       >
-              <div>
-              <div style={styles.score}>{this.state.score}</div>
-        {!this.state.running &&
+    <div>
+     <div style={styles.score}>{this.state.score}</div>
+      {!this.state.running &&
         <div style={styles.fullScreen}>
             <div style={styles.gameOverText}>Game Over</div>
             <div style={styles.gameOverSubText}>Try Again</div>
         </div>}
-        </div>
-
-        
-      </GameEngine>
-
+      </div>
+     </GameEngine>
     );
   }
 
