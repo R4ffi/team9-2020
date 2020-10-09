@@ -16,6 +16,11 @@ const clubColor = {
     secondaryColor: "#FFF",
     pantsColor: "#FFF",
   },
+  [club.yb]: {
+    primaryColor: "#FF0",
+    secondaryColor: "#000",
+    pantsColor: "#000"
+  }
 };
 
 export { clubColor };

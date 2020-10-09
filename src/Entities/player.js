@@ -3,7 +3,7 @@ import { clubColor } from "../Constants/clubColor";
 
 class Player extends PureComponent {
   render() {
-    const size = 100;
+    const size = GetAbsolutWidthPosition(550);
     const x = this.props.x - size / 2;
     const y = this.props.y - size / 2;
     const { club, skinColor } = this.props;
