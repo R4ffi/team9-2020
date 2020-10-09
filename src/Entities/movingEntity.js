@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Constants, {GetAbsolutWidthPosition, GetAbsolutHeightPosition} from "../Constants";
+import Constants, { GetAbsolutHeightPosition} from "../Constants";
 import Matter from "matter-js"
 import { clubColor } from "../Constants/clubColor";
 
