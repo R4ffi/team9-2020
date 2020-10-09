@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import player from "../assets/player.svg";
 
 class Player extends PureComponent {
   render() {
@@ -6,7 +7,17 @@ class Player extends PureComponent {
     const x = this.props.x - size / 2;
     const y = this.props.y - size / 2;
     return (
-      <div style={{ position: "absolute", width: size, height: size, backgroundColor: "green", left: x, top: y }} />
+      <div
+        style={{
+          position: "absolute",
+          width: size,
+          height: size,
+          left: x,
+          top: y,
+        }}
+      >
+        <img src={player} alt="here is a player" height={size} width={size} />
+      </div>
     );
   }
 }
