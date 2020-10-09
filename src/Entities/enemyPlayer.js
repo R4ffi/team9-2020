@@ -1,28 +1,39 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { clubColor } from "../Constants/clubColor";
+import Constants from "../Constants";
+import Matter from "matter-js";
 
-class EnemyPlayer extends PureComponent {
+export default class EnemyPlayer extends Component {
   render() {
-    const size = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
+    const sizeY = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
+    const sizeX = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
     const { club, skinColor } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
 
-    const x = this.props.body.position.x;
-    const y = this.props.body.position.x;
+    let x = this.props.body.position.x - Constants.SPEED;
+    if (x <= 0) {
+      x = Constants.MAX_WIDTH;
+    }
+    if (x >= Constants.MAX_WIDTH - sizeX / 2) {
+      x = Constants.MAX_WIDTH - sizeX / 2;
+    }
 
+    const y = this.props.body.position.y - sizeY / 2;
+    Matter.Body.setPosition(this.props.body, {
+      x: x,
+      y: this.props.body.position.y,
+    });
     return (
       <div
         style={{
           position: "absolute",
-          width: size,
-          height: size,
-          left: x,
+          width: sizeX,
+          height: sizeY,
+          left: x - sizeX / 2,
           top: y,
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-61 0 512 512.00486">
-          <defs id="defs28" />
-
           <path
             d="m 294.59886,220.20703 c 9.84375,-7.58594 11.67187,-21.71484 4.08203,-31.55469 L 242.80198,116.16016 C 238.9387,111.15234 233.14964,108 226.84886,107.47656 l -31.1211,-2.58984 -21.0039,19.88281 21.0039,25.26953 17.4961,1.45703 49.82031,64.62891 c 7.57422,9.82812 21.69922,11.68359 31.55469,4.08203 z m 0,0"
             id="path2"
@@ -78,5 +89,3 @@ class EnemyPlayer extends PureComponent {
     );
   }
 }
-
-export { EnemyPlayer };
