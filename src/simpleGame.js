@@ -94,6 +94,7 @@ export default class SimpleGame extends PureComponent {
       bg: { body: myGoal, renderer: Background },
     };
   };
+
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
