@@ -5,90 +5,88 @@ import { Box } from "./renderers";
 import { GameEngine } from "react-game-engine";
 import { MoveBox } from "./systems";
 import { Player } from "./Entities/player";
+import Ball from "./Entities/ball"
+import Physics from "./Physics/Physics";
 
 export default class SimpleGame extends PureComponent {
-  constructor(props) {
+ 
+  constructor(props){
     super(props);
 
     this.state = {
-      running: true,
-      score: 0,
+        running: true,
+        score: 0,
     };
 
     this.gameEngine = null;
 
     this.entities = this.setupWorld();
-  }
+}
 
   setupWorld = () => {
     let engine = Matter.Engine.create({ enableSleeping: false });
     let world = engine.world;
-    world.gravity.y = 0.0;
+    world.gravity.y = 0.5;
 
-    let ball = Matter.Bodies.rectangle(
-      Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT / 2,
-      30,
-      30
-    );
+    let ball = Matter.Bodies.rectangle( Constants.MAX_WIDTH / 2, Constants.MAX_HEIGHT / 2, 30, 30);
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 25,
+      Constants.MAX_HEIGHT - 300,
       Constants.MAX_WIDTH + 4,
       50,
       { isStatic: true }
     );
 
-    let floor2 = Matter.Bodies.rectangle(
-      Constants.MAX_WIDTH + Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 25,
-      Constants.MAX_WIDTH + 4,
-      50,
-      { isStatic: true }
-    );
-
-    Matter.World.add(world, [ball, floor1, floor2]);
-    Matter.Events.on(engine, "collisionStart", (event) => {
-      this.gameEngine.dispatch({ type: "game-over" });
+    Matter.World.add(world, [ball, floor1]);
+    Matter.Events.on(engine, 'collisionStart', (event) => {
+      //TODO here velocity zum Ball hinzufügen  
+      Matter.Body.setVelocity(ball, {
+        x: ball.velocity.x,
+        y: -15
+      })
+      //this.gameEngine.dispatch({ type: "game-over"});
     });
 
     return {
-      physics: { engine: engine, world: world },
-      //floor1: { body: floor1, renderer: Floor },
-      //floor2: { body: floor2, renderer: Floor },
-      //bird: { body: ball, pose: 1, renderer: Bird},
-      //TODO BALL
-    };
-  };
+        physics: { engine: engine, world: world },
+        ball: {body: ball, renderer: Ball},
+        floor1: { body: floor1, renderer: Ball },
+        //floor2: { body: floor2, renderer: Floor },
+        //bird: { body: ball, pose: 1, renderer: Bird}, 
+        //TODO BALL
+    }
+  }
 
   onEvent = (e) => {
-    if (e.type === "game-over") {
-      //Alert.alert("Game Over");
-      this.setState({
-        running: false,
-      });
+    if (e.type === "game-over"){
+        //Alert.alert("Game Over");
+        this.setState({
+            running: false
+        });
     } else if (e.type === "score") {
-      //Alert.alert("Score!");
+      //Alert.alert("Score!");  
       this.setState({
-        score: this.state.score + 1,
-      });
+            score: this.state.score + 1
+        })
     }
-  };
+  }
 
   render() {
     return (
       <GameEngine
         className="game"
         style={{ backgroundColor: "blue" }}
-        systems={[MoveBox]}
-        entities={{
+        systems={[Physics]}
+        entities={
+          this.entities
+          //{
           //-- Notice that each entity has a unique id (required)
           //-- and a renderer property (optional). If no renderer
           //-- is supplied with the entity - it won't get displayed.
-          box1: { x: 100, y: 100, renderer: <Box /> },
-          box2: { x: 300, y: 300, renderer: <Player /> },
-        }}
+          //box1: { x: 100, y: 100, renderer: <Box /> },
+          //box2: { x: 300, y: 300, renderer: <Player /> },
+        }
       ></GameEngine>
     );
   }
