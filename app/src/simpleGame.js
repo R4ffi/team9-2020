@@ -7,7 +7,8 @@ export default class SimpleGame extends PureComponent {
   render() {
     return (
       <GameEngine
-        style={{ width: 1280, height: 720, backgroundColor: "blue" }}
+        className="game"
+        style={{ backgroundColor: "blue" }}
         systems={[MoveBox]}
         entities={{
           //-- Notice that each entity has a unique id (required)
