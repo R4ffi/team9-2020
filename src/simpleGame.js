@@ -1,4 +1,3 @@
-import Ball from "./Entities/ball";
 import Constants from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
@@ -7,6 +6,8 @@ import React, { PureComponent } from "react";
 import { GameEngine } from "react-game-engine";
 import { MoveBox } from "./systems";
 import { Player } from "./Entities/player";
+import Ball from "./Entities/ball"
+import MovingEntity from "./Entities/movingEntity";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 
@@ -44,6 +45,13 @@ export default class SimpleGame extends PureComponent {
       { isStatic: true }
     );
 
+    let movingEntity1 = Matter.Bodies.rectangle(
+      0,
+      300,
+      50,
+      50,
+      { isStatic: false }
+    );
     Matter.World.add(world, [ball, floor1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
       //TODO here velocity zum Ball hinzufügen
@@ -55,21 +63,23 @@ export default class SimpleGame extends PureComponent {
     });
 
     return {
-      physics: { engine: engine, world: world },
-      ball: { body: ball, renderer: Ball },
-      floor1: { body: floor1, renderer: Floor },
-      //floor2: { body: floor2, renderer: Floor },
-      //bird: { body: ball, pose: 1, renderer: Bird},
-      //TODO BALL
-      player1: {
-        x: 300,
-        y: 300,
-        skinColor: skinColor.black,
-        club: club.stGallen,
-        renderer: <Player />,
-      },
-    };
-  };
+        physics: { engine: engine, world: world },
+        ball: {body: ball, renderer: Ball},
+        floor1: { body: floor1, renderer: Floor },
+        movingEntity1: { body: movingEntity1, renderer: MovingEntity },
+        player1: {
+          x: 300,
+          y: 300,
+          skinColor: skinColor.black,
+          club: club.stGallen,
+          renderer: <Player />,
+        },
+        //floor2: { body: floor2, renderer: Floor },
+        //bird: { body: ball, pose: 1, renderer: Bird}, 
+        //TODO BALL
+    }
+  }
+
 
   onEvent = (e) => {
     if (e.type === "game-over") {
