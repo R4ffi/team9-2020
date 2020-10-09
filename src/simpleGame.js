@@ -1,9 +1,12 @@
 import Background from "./Entities/background";
 import Ball from "./Entities/ball";
-import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "./Constants";
+import Constants, {
+  GetAbsolutHeightPosition,
+  GetAbsolutWidthPosition,
+} from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
-import MovingEntity from "./Entities/movingEntity";
+import YbPlayer from "./Entities/ybPlayer";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
 import { GameEngine } from "react-game-engine";
@@ -11,7 +14,6 @@ import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 
 export default class SimpleGame extends PureComponent {
-  
   constructor(props) {
     super(props);
     this.playerHeight = 10;
@@ -32,11 +34,11 @@ export default class SimpleGame extends PureComponent {
     let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
-      GetAbsolutHeightPosition(2),
-      );
+      GetAbsolutHeightPosition(2)
+    );
     const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
     const city = Matter.Bodies.rectangle(0, 0, 0, 0);
-    
+
     ball.label = "ball";
 
     let floor1 = Matter.Bodies.rectangle(
@@ -46,7 +48,7 @@ export default class SimpleGame extends PureComponent {
       GetAbsolutHeightPosition(10),
       { isStatic: true }
     );
-    floor1.label = 'floor';
+    floor1.label = "floor";
     let player1 = Matter.Bodies.rectangle(
       0,
       Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
@@ -56,7 +58,6 @@ export default class SimpleGame extends PureComponent {
         inertia: Infinity,
       }
     );
-    
 
     player1.label = "player1";
     Matter.World.add(world, [ball, floor1, player1]);
@@ -89,7 +90,7 @@ export default class SimpleGame extends PureComponent {
       floor1: { body: floor1, renderer: Floor },
       player1: {
         body: player1,
-        renderer: MovingEntity,
+        renderer: YbPlayer,
         skinColor: skinColor.black,
         club: club.stGallen,
       },

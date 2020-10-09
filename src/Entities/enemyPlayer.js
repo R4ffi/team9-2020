@@ -1,14 +1,14 @@
 import React, { PureComponent } from "react";
 import { clubColor } from "../Constants/clubColor";
 
-class Player extends PureComponent {
+class EnemyPlayer extends PureComponent {
   render() {
     const size = GetAbsolutWidthPosition(550);
     const x = this.props.x - size / 2;
     const y = this.props.y - size / 2;
     const { club, skinColor } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
-    
+
     return (
       <div
         style={{
@@ -78,4 +78,4 @@ class Player extends PureComponent {
   }
 }
 
-export { Player };
+export { EnemyPlayer };

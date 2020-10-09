@@ -4,7 +4,7 @@ import Matter from "matter-js"
 import { clubColor } from "../Constants/clubColor";
 
 
-export default class MovingEntity extends Component {
+export default class YbPlayer extends Component {
     render() {
     const size = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
     const { club, skinColor } = this.props;
