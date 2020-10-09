@@ -1,12 +1,12 @@
+import Ball from "./Entities/ball";
 import Constants from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
+import MovingEntity from "./Entities/movingEntity";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
 import { GameEngine } from "react-game-engine";
 import { Player } from "./Entities/player";
-import Ball from "./Entities/ball"
-import MovingEntity from "./Entities/movingEntity";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 
@@ -51,6 +51,7 @@ export default class SimpleGame extends PureComponent {
       120,
     );
     Matter.World.add(world, [ball, floor1, player1]);
+
     Matter.Events.on(engine, "collisionStart", (event) => {
       Matter.Body.setVelocity(ball, {
         x: ball.velocity.x,
@@ -65,8 +66,6 @@ export default class SimpleGame extends PureComponent {
         player1: { body: player1, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
     }
   }
-
-
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");

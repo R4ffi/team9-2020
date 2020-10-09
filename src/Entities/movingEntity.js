@@ -5,12 +5,7 @@ import { clubColor } from "../Constants/clubColor";
 
 
 export default class MovingEntity extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const width = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
+  render() {
         const size = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
         const { club, skinColor } = this.props;
         const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
@@ -19,7 +14,7 @@ export default class MovingEntity extends Component {
         if (x <= 0) {
             x = Constants.MAX_WIDTH;
         }
-        const y = 800;
+        const y = Constants.MAX_HEIGHT - 500;
         Matter.Body.setPosition(this.props.body, { x: x, y: y })
 
         return (
@@ -90,3 +85,4 @@ export default class MovingEntity extends Component {
           );
     }
 }
+
