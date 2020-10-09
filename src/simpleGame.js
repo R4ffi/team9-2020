@@ -1,6 +1,6 @@
 import Background from "./Entities/background";
 import Ball from "./Entities/ball";
-import Constants from "./Constants";
+import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
 import MovingEntity from "./Entities/movingEntity";
@@ -11,9 +11,10 @@ import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 
 export default class SimpleGame extends PureComponent {
+  
   constructor(props) {
     super(props);
-
+    this.playerHeight = 10;
     this.state = {
       running: true,
       score: 0,
@@ -31,7 +32,7 @@ export default class SimpleGame extends PureComponent {
     let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
-      15,
+      GetAbsolutHeightPosition(2),
       );
     let myGoal = Matter.Bodies.rectangle(0, 0, 0, 0);
     
@@ -39,20 +40,20 @@ export default class SimpleGame extends PureComponent {
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 300,
+      Constants.MAX_HEIGHT - GetAbsolutHeightPosition(10),
       Constants.MAX_WIDTH + 4,
-      200,
+      GetAbsolutHeightPosition(10),
       { isStatic: true }
     );
     floor1.label = 'floor';
     let player1 = Matter.Bodies.rectangle(
       0,
-      Constants.MAX_HEIGHT - 500,
-      60,
-      120,
+      Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
+      GetAbsolutWidthPosition(10),
+      GetAbsolutHeightPosition(20),
       {
         inertia: Infinity,
-    }
+      }
     );
     
 
@@ -67,7 +68,7 @@ export default class SimpleGame extends PureComponent {
       ) {
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
-          y: -15,
+          y: -GetAbsolutWidthPosition(1),
         });
       } else if (
         event.pairs.filter((element) =>
@@ -76,7 +77,7 @@ export default class SimpleGame extends PureComponent {
       ) {
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
-          y: -5,
+          y: 0,
         });
       }
     });
