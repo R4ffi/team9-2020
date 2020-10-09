@@ -44,37 +44,28 @@ export default class SimpleGame extends PureComponent {
       { isStatic: true }
     );
 
-    let movingEntity1 = Matter.Bodies.rectangle(0, 300, 50, 50, {
-      isStatic: false,
-    });
-    Matter.World.add(world, [ball, floor1]);
+    let player1 = Matter.Bodies.rectangle(
+      0,
+      300,
+      50,
+      120,
+    );
+    Matter.World.add(world, [ball, floor1, player1]);
+
     Matter.Events.on(engine, "collisionStart", (event) => {
-      //TODO here velocity zum Ball hinzufügen
       Matter.Body.setVelocity(ball, {
         x: ball.velocity.x,
         y: -15,
       });
-      //this.gameEngine.dispatch({ type: "game-over"});
     });
 
     return {
-      physics: { engine: engine, world: world },
-      ball: { body: ball, renderer: Ball },
-      floor1: { body: floor1, renderer: Floor },
-      movingEntity1: { body: movingEntity1, renderer: MovingEntity },
-      player1: {
-        x: 300,
-        y: 300,
-        skinColor: skinColor.black,
-        club: club.stGallen,
-        renderer: <Player />,
-      },
-      //floor2: { body: floor2, renderer: Floor },
-      //bird: { body: ball, pose: 1, renderer: Bird},
-      //TODO BALL
-    };
-  };
-
+        physics: { engine: engine, world: world },
+        ball: {body: ball, renderer: Ball},
+        floor1: { body: floor1, renderer: Floor },
+        player1: { body: player1, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
+    }
+  }
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
