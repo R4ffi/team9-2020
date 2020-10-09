@@ -100,12 +100,7 @@ export default class SimpleGame extends PureComponent {
         skinColor: skinColor.latin,
         club: club.yb,
       },
-      enemy1: {
-        body: enemy1,
-        renderer: EnemyPlayer,
-        skinColor: skinColor.black,
-        club: club.luzern,
-      },
+
       bg: { stadium, city, goalReached: () => { this.gameEngine.dispatch({ type: "goal-reached" }); console.log("goal reached") }, renderer: Background },
     };
   };
