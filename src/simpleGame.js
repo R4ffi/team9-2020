@@ -6,9 +6,10 @@ import Constants, {
 } from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
-import YbPlayer from "./Entities/ybPlayer";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
+import YbPlayer from "./Entities/ybPlayer";
+import { EnemyPlayer } from "./Entities/enemyPlayer";
 import { GameEngine } from "react-game-engine";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
@@ -60,8 +61,12 @@ export default class SimpleGame extends PureComponent {
     );
 
     player1.label = "player1";
-    Matter.World.add(world, [ball, floor1, player1]);
 
+    let enemy1 = Matter.Bodies.rectangle(200, 200, 200, 200, {
+      inertia: Infinity,
+    });
+
+    Matter.World.add(world, [ball, floor1, player1, enemy1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
       if (
         event.pairs.filter((element) =>
@@ -91,8 +96,14 @@ export default class SimpleGame extends PureComponent {
       player1: {
         body: player1,
         renderer: YbPlayer,
+        skinColor: skinColor.latin,
+        club: club.yb,
+      },
+      enemy1: {
+        body: enemy1,
+        renderer: EnemyPlayer,
         skinColor: skinColor.black,
-        club: club.stGallen,
+        club: club.luzern,
       },
       bg: { stadium, city, renderer: Background },
     };
