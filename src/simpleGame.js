@@ -6,7 +6,6 @@ import MovingEntity from "./Entities/movingEntity";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
 import { GameEngine } from "react-game-engine";
-import { Player } from "./Entities/player";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 

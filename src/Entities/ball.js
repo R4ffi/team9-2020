@@ -1,5 +1,6 @@
-import React, { Component } from "react";
 import Constants from "../Constants";
+import React, { Component } from "react";
+import soccerBall from "../Assets/Images/soccer-ball.svg";
 
 export default class Ball extends Component {
   render() {
@@ -14,12 +15,12 @@ export default class Ball extends Component {
           position: "absolute",
           width: width,
           height: height,
-          backgroundColor: "red",
           left: x,
           top: y,
         }}
-      />
-      // <Animated.Image
+      >
+        <img src={soccerBall} className="ball" alt="soccer ball" />
+      </div>
     );
   }
 }
