@@ -5,6 +5,8 @@ import { Box } from "./renderers";
 import { GameEngine } from "react-game-engine";
 import { MoveBox } from "./systems";
 import { Player } from "./Entities/player";
+import { club } from "./Constants/club";
+import { skinColor } from "./Constants/skinColor";
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -87,7 +89,13 @@ export default class SimpleGame extends PureComponent {
           //-- and a renderer property (optional). If no renderer
           //-- is supplied with the entity - it won't get displayed.
           box1: { x: 100, y: 100, renderer: <Box /> },
-          box2: { x: 300, y: 300, renderer: <Player /> },
+          box2: {
+            x: 300,
+            y: 300,
+            skinColor: skinColor.black,
+            club: club.stGallen,
+            renderer: <Player />,
+          },
         }}
       ></GameEngine>
     );
