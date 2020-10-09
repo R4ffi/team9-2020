@@ -22,6 +22,8 @@ export default class SimpleGame extends PureComponent {
     this.state = {
       running: true,
       score: 0,
+      trophy: 0,
+      year: 2018
     };
 
     this.gameEngine = null;
@@ -141,6 +143,8 @@ export default class SimpleGame extends PureComponent {
         entities={this.entities}
       >
         <div>
+        <div style={styles.year}>{this.state.year}</div>
+        <div style={styles.trophy}>{this.state.trophy}</div>
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
             <div onClick={this.reset} style={styles.fullScreen}>
@@ -164,6 +168,8 @@ export default class SimpleGame extends PureComponent {
     this.setState({
       running: true,
       score: this.state.score + 100,
+      year: this.state.year + 1,
+      trophy: this.state.trophy + 1
     });
     this.gameEngine.swap(this.setupWorld());
   };
@@ -172,6 +178,8 @@ export default class SimpleGame extends PureComponent {
     this.setState({
       running: true,
       score: 0,
+      year: 2018,
+      trophy: 0
     });
   };
 
@@ -229,8 +237,30 @@ const styles = {
     position: "absolute",
     color: "white",
     fontSize: 72,
-    top: 50,
+    top: 30,
     left: Constants.MAX_WIDTH / 2 - 20,
+    textShadowColor: "#444444",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: "04b_19",
+  },
+  trophy: {
+    position: "absolute",
+    color: "white",
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH - Constants.MAX_WIDTH/3 - 20,
+    textShadowColor: "#444444",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: "04b_19",
+  },
+  year: {
+    position: "absolute",
+    color: "white",
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH / 3 -20,
     textShadowColor: "#444444",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
