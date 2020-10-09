@@ -6,7 +6,6 @@ import MovingEntity from "./Entities/movingEntity";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
 import { GameEngine } from "react-game-engine";
-import { Player } from "./Entities/player";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
 
@@ -35,6 +34,7 @@ export default class SimpleGame extends PureComponent {
       30,
       30
     );
+    ball.label = 'ball';
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
@@ -44,19 +44,30 @@ export default class SimpleGame extends PureComponent {
       { isStatic: true }
     );
 
+    floor1.label = 'floor1';
+
     let player1 = Matter.Bodies.rectangle(
       0,
-      300,
+      Constants.MAX_HEIGHT - 500,
       50,
       120,
     );
+
+    player1.label = 'player1';
     Matter.World.add(world, [ball, floor1, player1]);
 
     Matter.Events.on(engine, "collisionStart", (event) => {
-      Matter.Body.setVelocity(ball, {
-        x: ball.velocity.x,
-        y: -15,
-      });
+      if(event.pairs.filter(element => element.bodyB.label === "player1" || element.bodyA.label === "player1").length != 0){
+        Matter.Body.setVelocity(ball, {
+          x: ball.velocity.x,
+          y: -15,
+        });
+      }else if(event.pairs.filter(element => element.bodyA.label === "floor1" || element.bodyA.label === "floor").length != 0){
+        Matter.Body.setVelocity(ball, {
+          x: 0,
+          y: 0,
+        });
+      }
     });
 
     return {

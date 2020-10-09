@@ -14,8 +14,8 @@ export default class MovingEntity extends Component {
         if (x <= 0) {
             x = Constants.MAX_WIDTH;
         }
-        const y = Constants.MAX_HEIGHT - 500;
-        Matter.Body.setPosition(this.props.body, { x: x, y: y })
+        const y = (this.props.body.position.y) - size/2;
+        Matter.Body.setPosition(this.props.body, { x: x, y: this.props.body.position.y })
 
         return (
             <div
