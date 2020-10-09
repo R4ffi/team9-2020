@@ -35,18 +35,16 @@ export default class SimpleGame extends PureComponent {
       30,
     );
     ball.label = 'ball';
-    ball.restitution = 0;
-    ball.slop = 0;
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT - 300,
       Constants.MAX_WIDTH + 4,
-      50,
+      200,
       { isStatic: true }
     );
 
-    floor1.label = 'floor1';
+    floor1.label = 'floor';
 
     let player1 = Matter.Bodies.rectangle(
       0,
@@ -59,15 +57,15 @@ export default class SimpleGame extends PureComponent {
     Matter.World.add(world, [ball, floor1, player1]);
 
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if(event.pairs.filter(element => element.bodyB.label === "player1" || element.bodyA.label === "player1").length !== 0){
+      if(event.pairs.filter(element => this.bodiesAreColliding(element, "player1" ,"ball")).length !== 0){
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
           y: -15,
         });
-      }else if(event.pairs.filter(element => element.bodyA.label === "floor1" || element.bodyA.label === "floor").length !== 0){
+      }else if(event.pairs.filter(element =>this.bodiesAreColliding(element, "floor" ,"ball")).length !== 0){
         Matter.Body.setVelocity(ball, {
-          x: 0,
-          y: 0,
+          x: ball.velocity.x,
+          y: -5,
         });
       }
     });
@@ -102,5 +100,9 @@ export default class SimpleGame extends PureComponent {
         entities={this.entities}
       ></GameEngine>
     );
+  }
+
+  bodiesAreColliding(pair, nameA, nameB) {
+    return (pair.bodyB.label === nameA && pair.bodyA.label === nameB) || (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
   }
 }
