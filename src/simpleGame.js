@@ -34,7 +34,7 @@ export default class SimpleGame extends PureComponent {
     world.gravity.y = 0.5;
     let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT / 2,
+      0,
       GetAbsolutHeightPosition(2)
     );
     const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
@@ -51,7 +51,7 @@ export default class SimpleGame extends PureComponent {
     );
     floor1.label = "floor";
     let player1 = Matter.Bodies.rectangle(
-      0,
+      Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
       GetAbsolutWidthPosition(10),
       GetAbsolutHeightPosition(20),
@@ -111,7 +111,6 @@ export default class SimpleGame extends PureComponent {
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
-      debugger
       this.setState({
         running: false,
       });
@@ -136,7 +135,7 @@ export default class SimpleGame extends PureComponent {
     <div>
      <div style={styles.score}>{this.state.score}</div>
       {!this.state.running &&
-        <div style={styles.fullScreen}>
+        <div  onClick={this.reset} style={styles.fullScreen}>
             <div style={styles.gameOverText}>Game Over</div>
             <div style={styles.gameOverSubText}>Try Again</div>
         </div>}
@@ -144,6 +143,13 @@ export default class SimpleGame extends PureComponent {
      </GameEngine>
     );
   }
+  reset = () => {
+    this.gameEngine.swap(this.setupWorld());
+    this.setState({
+        running: true,
+        score: 0
+    });
+}
 
   bodiesAreColliding(pair, nameA, nameB) {
     return (
