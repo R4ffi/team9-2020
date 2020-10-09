@@ -1,3 +1,4 @@
+import Background from "./Entities/background";
 import Ball from "./Entities/ball";
 import Constants from "./Constants";
 import Floor from "./Entities/floor";
@@ -32,9 +33,9 @@ export default class SimpleGame extends PureComponent {
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
       30,
-      30,
+      30
     );
-    ball.label = 'ball';
+    ball.label = "ball";
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
@@ -44,25 +45,33 @@ export default class SimpleGame extends PureComponent {
       { isStatic: true }
     );
 
-    floor1.label = 'floor';
+    floor1.label = "floor";
 
     let player1 = Matter.Bodies.rectangle(
       0,
       Constants.MAX_HEIGHT - 500,
       60,
-      120,
+      120
     );
 
-    player1.label = 'player1';
+    player1.label = "player1";
     Matter.World.add(world, [ball, floor1, player1]);
 
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if(event.pairs.filter(element => this.bodiesAreColliding(element, "player1" ,"ball")).length !== 0){
+      if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "player1", "ball")
+        ).length !== 0
+      ) {
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
           y: -15,
         });
-      }else if(event.pairs.filter(element =>this.bodiesAreColliding(element, "floor" ,"ball")).length !== 0){
+      } else if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "floor", "ball")
+        ).length !== 0
+      ) {
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
           y: -5,
@@ -71,12 +80,18 @@ export default class SimpleGame extends PureComponent {
     });
 
     return {
-        physics: { engine: engine, world: world },
-        ball: {body: ball, renderer: Ball},
-        floor1: { body: floor1, renderer: Floor },
-        player1: { body: player1, renderer: MovingEntity,  skinColor: skinColor.black, club: club.stGallen },
-    }
-  }
+      physics: { engine: engine, world: world },
+      ball: { body: ball, renderer: Ball },
+      floor1: { body: floor1, renderer: Floor },
+      player1: {
+        body: player1,
+        renderer: MovingEntity,
+        skinColor: skinColor.black,
+        club: club.stGallen,
+      },
+      bg: { renderer: Background },
+    };
+  };
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
@@ -95,7 +110,6 @@ export default class SimpleGame extends PureComponent {
     return (
       <GameEngine
         className="game"
-        style={{ backgroundColor: "blue" }}
         systems={[Physics]}
         entities={this.entities}
       ></GameEngine>
@@ -103,6 +117,9 @@ export default class SimpleGame extends PureComponent {
   }
 
   bodiesAreColliding(pair, nameA, nameB) {
-    return (pair.bodyB.label === nameA && pair.bodyA.label === nameB) || (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
+    return (
+      (pair.bodyB.label === nameA && pair.bodyA.label === nameB) ||
+      (pair.bodyB.label === nameB && pair.bodyA.label === nameA)
+    );
   }
 }
