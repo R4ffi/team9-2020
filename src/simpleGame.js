@@ -30,6 +30,8 @@ export default class SimpleGame extends PureComponent {
   }
 
   setupWorld = () => {
+    this.isGoal = false;
+    this.endreached = false;
     let engine = Matter.Engine.create();
     let world = engine.world;
     world.gravity.y = Constants.GRAVITY;
@@ -101,7 +103,7 @@ export default class SimpleGame extends PureComponent {
         club: club.yb,
       },
 
-      bg: { stadium, city, goalReached: () => { this.gameEngine.dispatch({ type: "goal-reached" }); console.log("goal reached") }, renderer: Background },
+      bg: { stadium, city,  endReached: () => { this.gameEngine.dispatch({ type: "end-reached" }) }, goalReached: () => { this.gameEngine.dispatch({ type: "goal-reached" }) }, renderer: Background },
     };
   };
 
@@ -118,6 +120,11 @@ export default class SimpleGame extends PureComponent {
       });
     } else if (e.type === "goal-reached") {
       this.isGoal = true;
+    }else if ( e.type === "end-reached"){
+      this.endreached = true;
+      this.setState({
+        running: false,
+      });
     }
   };
 
@@ -135,16 +142,31 @@ export default class SimpleGame extends PureComponent {
       >
         <div>
           <div style={styles.score}>{this.state.score}</div>
-          {!this.state.running && (
+          {!this.state.running && !this.endreached && (
             <div onClick={this.reset} style={styles.fullScreen}>
               <div style={styles.gameOverText}>Game Over</div>
               <div style={styles.gameOverSubText}>Try Again</div>
             </div>
           )}
+          {this.endreached &&
+          (
+            <div onClick={this.continue} style={styles.fullScreen}>
+              <div style={styles.gameOverText}>Level Reached</div>
+              <div style={styles.gameOverSubText}>Continue...</div>
+            </div>
+          )
+          }
         </div>
       </GameEngine>
     );
   }
+  continue = () => {
+    this.setState({
+      running: true,
+      score: this.state.score + 100,
+    });
+    this.gameEngine.swap(this.setupWorld());
+  };
   reset = () => {
     this.gameEngine.swap(this.setupWorld());
     this.setState({
