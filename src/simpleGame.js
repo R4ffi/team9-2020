@@ -7,6 +7,7 @@ import { MoveBox } from "./systems";
 import { Player } from "./Entities/player";
 import Ball from "./Entities/ball"
 import Physics from "./Physics/Physics";
+import Floor from "./Entities/floor";
 
 export default class SimpleGame extends PureComponent {
  
@@ -51,7 +52,7 @@ export default class SimpleGame extends PureComponent {
     return {
         physics: { engine: engine, world: world },
         ball: {body: ball, renderer: Ball},
-        floor1: { body: floor1, renderer: Ball },
+        floor1: { body: floor1, renderer: Floor },
         //floor2: { body: floor2, renderer: Floor },
         //bird: { body: ball, pose: 1, renderer: Bird}, 
         //TODO BALL
