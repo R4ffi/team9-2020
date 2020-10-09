@@ -29,6 +29,8 @@ export default class SimpleGame extends PureComponent {
     let world = engine.world;
     world.gravity.y = 0.5;
 
+    let myGoal = Matter.Bodies.rectangle(0, 0, 0, 0);
+
     let ball = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
@@ -89,7 +91,7 @@ export default class SimpleGame extends PureComponent {
         skinColor: skinColor.black,
         club: club.stGallen,
       },
-      bg: { renderer: Background },
+      bg: { body: myGoal, renderer: Background },
     };
   };
   onEvent = (e) => {
