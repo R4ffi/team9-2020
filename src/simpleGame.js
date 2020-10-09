@@ -32,9 +32,11 @@ export default class SimpleGame extends PureComponent {
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT / 2,
       30,
-      30
+      30,
     );
     ball.label = 'ball';
+    ball.restitution = 0;
+    ball.slop = 0;
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
@@ -49,7 +51,7 @@ export default class SimpleGame extends PureComponent {
     let player1 = Matter.Bodies.rectangle(
       0,
       Constants.MAX_HEIGHT - 500,
-      50,
+      60,
       120,
     );
 
@@ -57,12 +59,12 @@ export default class SimpleGame extends PureComponent {
     Matter.World.add(world, [ball, floor1, player1]);
 
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if(event.pairs.filter(element => element.bodyB.label === "player1" || element.bodyA.label === "player1").length != 0){
+      if(event.pairs.filter(element => element.bodyB.label === "player1" || element.bodyA.label === "player1").length !== 0){
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
           y: -15,
         });
-      }else if(event.pairs.filter(element => element.bodyA.label === "floor1" || element.bodyA.label === "floor").length != 0){
+      }else if(event.pairs.filter(element => element.bodyA.label === "floor1" || element.bodyA.label === "floor").length !== 0){
         Matter.Body.setVelocity(ball, {
           x: 0,
           y: 0,

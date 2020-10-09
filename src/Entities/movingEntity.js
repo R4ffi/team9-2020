@@ -7,6 +7,7 @@ import { clubColor } from "../Constants/clubColor";
 export default class MovingEntity extends Component {
   render() {
         const size = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
+        const width =  this.props.body.bounds.max.x - this.props.body.bounds.min.x;
         const { club, skinColor } = this.props;
         const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
 
@@ -14,16 +15,16 @@ export default class MovingEntity extends Component {
         if (x <= 0) {
             x = Constants.MAX_WIDTH;
         }
-        const y = (this.props.body.position.y) - size/2;
-        Matter.Body.setPosition(this.props.body, { x: x, y: this.props.body.position.y })
 
+        const y = (this.props.body.position.y) - size/2;
+        Matter.Body.setPosition(this.props.body, { x: x, y: this.props.body.position.y})
         return (
             <div
               style={{
                 position: "absolute",
                 width: size,
                 height: size,
-                left: x,
+                left: x - width/2,
                 top: y,
               }}
             >
