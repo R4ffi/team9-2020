@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Constants from "../Constants";
+import Constants, {GetAbsolutWidthPosition, GetAbsolutHeightPosition} from "../Constants";
 import Matter from "matter-js"
 import { clubColor } from "../Constants/clubColor";
 
 
 export default class MovingEntity extends Component {
     render() {
-    const size = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
+    const size = GetAbsolutHeightPosition(11);//this.props.body.bounds.max.y - this.props.body.bounds.min.y;
     const { club, skinColor } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
 
@@ -23,7 +23,7 @@ export default class MovingEntity extends Component {
             position: "absolute",
             width: size,
             height: size,
-            left: x - 30,
+            left: this.x - GetAbsolutHeightPosition(2),
             top: y,
             }}
         >
