@@ -1,7 +1,9 @@
+import Ball from "./Entities/ball";
 import Constants from "./Constants";
+import Floor from "./Entities/floor";
 import Matter from "matter-js";
+import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
-import { Box } from "./renderers";
 import { GameEngine } from "react-game-engine";
 import { MoveBox } from "./systems";
 import { Player } from "./Entities/player";
@@ -25,7 +27,7 @@ export default class SimpleGame extends PureComponent {
   setupWorld = () => {
     let engine = Matter.Engine.create({ enableSleeping: false });
     let world = engine.world;
-    world.gravity.y = 0.0;
+    world.gravity.y = 0.5;
 
     let ball = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
@@ -36,31 +38,36 @@ export default class SimpleGame extends PureComponent {
 
     let floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 25,
+      Constants.MAX_HEIGHT - 300,
       Constants.MAX_WIDTH + 4,
       50,
       { isStatic: true }
     );
 
-    let floor2 = Matter.Bodies.rectangle(
-      Constants.MAX_WIDTH + Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 25,
-      Constants.MAX_WIDTH + 4,
-      50,
-      { isStatic: true }
-    );
-
-    Matter.World.add(world, [ball, floor1, floor2]);
+    Matter.World.add(world, [ball, floor1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
-      this.gameEngine.dispatch({ type: "game-over" });
+      //TODO here velocity zum Ball hinzufügen
+      Matter.Body.setVelocity(ball, {
+        x: ball.velocity.x,
+        y: -15,
+      });
+      //this.gameEngine.dispatch({ type: "game-over"});
     });
 
     return {
       physics: { engine: engine, world: world },
-      //floor1: { body: floor1, renderer: Floor },
+      ball: { body: ball, renderer: Ball },
+      floor1: { body: floor1, renderer: Floor },
       //floor2: { body: floor2, renderer: Floor },
       //bird: { body: ball, pose: 1, renderer: Bird},
       //TODO BALL
+      player1: {
+        x: 300,
+        y: 300,
+        skinColor: skinColor.black,
+        club: club.stGallen,
+        renderer: <Player />,
+      },
     };
   };
 
@@ -83,20 +90,8 @@ export default class SimpleGame extends PureComponent {
       <GameEngine
         className="game"
         style={{ backgroundColor: "blue" }}
-        systems={[MoveBox]}
-        entities={{
-          //-- Notice that each entity has a unique id (required)
-          //-- and a renderer property (optional). If no renderer
-          //-- is supplied with the entity - it won't get displayed.
-          box1: { x: 100, y: 100, renderer: <Box /> },
-          box2: {
-            x: 300,
-            y: 300,
-            skinColor: skinColor.black,
-            club: club.stGallen,
-            renderer: <Player />,
-          },
-        }}
+        systems={[Physics]}
+        entities={this.entities}
       ></GameEngine>
     );
   }
