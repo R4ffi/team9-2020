@@ -8,6 +8,7 @@ import { Player } from "./Entities/player";
 import Ball from "./Entities/ball"
 import Physics from "./Physics/Physics";
 import Floor from "./Entities/floor";
+import MovingEntity from "./Entities/movingEntity";
 
 export default class SimpleGame extends PureComponent {
  
@@ -39,9 +40,17 @@ export default class SimpleGame extends PureComponent {
       { isStatic: true }
     );
 
+    let movingEntity1 = Matter.Bodies.rectangle(
+      0,
+      300,
+      50,
+      50,
+      { isStatic: false }
+    );
     Matter.World.add(world, [ball, floor1]);
     Matter.Events.on(engine, 'collisionStart', (event) => {
       //TODO here velocity zum Ball hinzufügen  
+      debugger;
       Matter.Body.setVelocity(ball, {
         x: ball.velocity.x,
         y: -15
@@ -53,6 +62,7 @@ export default class SimpleGame extends PureComponent {
         physics: { engine: engine, world: world },
         ball: {body: ball, renderer: Ball},
         floor1: { body: floor1, renderer: Floor },
+        movingEntity1: { body: movingEntity1, renderer: MovingEntity },
         //floor2: { body: floor2, renderer: Floor },
         //bird: { body: ball, pose: 1, renderer: Bird}, 
         //TODO BALL
