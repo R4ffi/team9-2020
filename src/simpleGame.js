@@ -31,7 +31,7 @@ export default class SimpleGame extends PureComponent {
   setupWorld = () => {
     let engine = Matter.Engine.create();
     let world = engine.world;
-    world.gravity.y = 0.5;
+    world.gravity.y = Constants.GRAVITY;
     let ball = Matter.Bodies.circle(
       Constants.MAX_WIDTH / 2,
       0,
