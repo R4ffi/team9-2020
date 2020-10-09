@@ -19,8 +19,6 @@ class Player extends PureComponent {
           top: y,
         }}
       >
-        <h2>{this.props.club}</h2>
-
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-61 0 512 512.00486">
           <defs id="defs28" />
 
