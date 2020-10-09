@@ -1,35 +1,65 @@
 import Constants from "../Constants";
 import Matter from "matter-js";
 import React, { useRef } from "react";
-import field from "../Assets/Images/field.png";
+import city from "../Assets/Images/city.png";
+import stadium from "../Assets/Images/stadium.png";
 
 const Background = (props) => {
-  const bgImage = useRef(null);
-  let x = props.body.position.x - Constants.BG_SPEED;
+  const stadiumImage = useRef(null);
+  const cityImage = useRef(null);
 
-  if (bgImage.current) {
-    if (x - Constants.MAX_WIDTH < -bgImage.current.width) {
-      x = 0;
-    }
+  let stadiumX = props.stadium.position.x - Constants.SPEED_STADIUM;
+  let cityX = props.city.position.x - Constants.SPEED_CITY;
+
+  if (
+    stadiumImage.current &&
+    stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width
+  ) {
+    stadiumX = 0;
   }
 
-  Matter.Body.setPosition(props.body, {
-    x: x,
-    y: props.body.position.y,
+  if (
+    cityImage.current &&
+    cityX - Constants.MAX_WIDTH < -cityImage.current.width
+  ) {
+    cityX = 0;
+  }
+
+  Matter.Body.setPosition(props.stadium, {
+    x: stadiumX,
+    y: props.stadium.position.y,
+  });
+
+  Matter.Body.setPosition(props.city, {
+    x: cityX,
+    y: props.city.position.y,
   });
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        width: "100%",
-        zIndex: -100,
-        height: "100%",
-        left: `${x}px`,
-      }}
-    >
-      <img ref={bgImage} src={field} alt="field" height="100%" />
-    </div>
+    <React.Fragment>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          zIndex: -110,
+          height: "31%",
+          left: `${cityX}px`,
+        }}
+      >
+        <img ref={cityImage} src={city} alt="field" height="100%" />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          zIndex: -100,
+          height: "100%",
+          left: `${stadiumX}px`,
+        }}
+      >
+        <img ref={stadiumImage} src={stadium} alt="field" height="100%" />
+      </div>
+    </React.Fragment>
   );
 };
 

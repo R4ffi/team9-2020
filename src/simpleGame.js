@@ -34,7 +34,8 @@ export default class SimpleGame extends PureComponent {
       Constants.MAX_HEIGHT / 2,
       GetAbsolutHeightPosition(2),
       );
-    let myGoal = Matter.Bodies.rectangle(0, 0, 0, 0);
+    const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
+    const city = Matter.Bodies.rectangle(0, 0, 0, 0);
     
     ball.label = "ball";
 
@@ -92,7 +93,7 @@ export default class SimpleGame extends PureComponent {
         skinColor: skinColor.black,
         club: club.stGallen,
       },
-      bg: { body: myGoal, renderer: Background },
+      bg: { stadium, city, renderer: Background },
     };
   };
 
