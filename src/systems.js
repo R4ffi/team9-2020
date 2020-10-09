@@ -14,7 +14,7 @@ const MoveBox = (entities, { input }) => {
         box1.y = payload.pageY;
     }
     const box2 = entities["box2"];
-    if (box2.x < box2.size) {
+    if (box2.x < 100 / 2) {
         box2.x = Constants.MAX_WIDTH;
     }
     box2.x -= 4;
