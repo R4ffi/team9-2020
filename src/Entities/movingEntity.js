@@ -23,7 +23,7 @@ export default class MovingEntity extends Component {
             position: "absolute",
             width: size,
             height: size,
-            left: this.x - GetAbsolutHeightPosition(2),
+            left: x - (size / 4),
             top: y,
             }}
         >
