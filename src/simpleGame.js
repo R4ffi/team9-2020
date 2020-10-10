@@ -18,12 +18,9 @@ import gameOverSound from "./Assets/Sounds/gameOver.mp3";
 import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
 import GameOver from "./gameOver";
+import LevelUp from "./levelUp";
 
-const clubOrder = [
-  club.luzern,
-  club.basel,
-  club.stGallen
-];
+const clubOrder = [club.luzern, club.basel, club.stGallen];
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -196,14 +193,7 @@ export default class SimpleGame extends PureComponent {
           )}
           {this.endreached && (
             <div style={styles.fullScreen}>
-              <div style={styles.gameOverText}>Level Reached</div>
-              <button
-                class="btn btn-outline-secondary"
-                onClick={this.continue}
-                style={styles.gameOverSubText}
-              >
-                Continue...
-              </button>
+              <LevelUp continue={this.continue} />
             </div>
           )}
         </div>
@@ -217,7 +207,7 @@ export default class SimpleGame extends PureComponent {
       year: this.state.year + 1,
       trophy: this.state.trophy + 1,
     });
-    if(++this.clubPointer >= clubOrder.length){
+    if (++this.clubPointer >= clubOrder.length) {
       this.clubPointer = 0;
     }
     this.gameEngine.swap(this.setupWorld());
@@ -260,15 +250,6 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  gameOverText: {
-    color: "white",
-    fontSize: 48,
-    fontFamily: "04b_19",
-  },
-  gameOverSubText: {
-    fontSize: 24,
-    fontFamily: "04b_19",
   },
   fullScreen: {
     position: "absolute",

@@ -32,7 +32,7 @@ const GameOver = (props) => {
         onClick={props.reset}
         style={styles.button}
       >
-        Try Again
+        Probier nomau
       </button>
     </div>
   );
@@ -40,8 +40,7 @@ const GameOver = (props) => {
 
 const styles = {
   button: {
-    fontSize: GetAbsolutHeightPosition(5),
-    height: GetAbsolutHeightPosition(10),
+    fontSize: GetAbsolutHeightPosition(3),
     width: "100%",
   },
 };
