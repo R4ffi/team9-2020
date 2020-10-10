@@ -4,10 +4,9 @@ import Constants, {
 } from "../Constants";
 import EnemyPlayer from "../Entities/enemyPlayer";
 import Matter from "matter-js";
-import { club } from "../Constants/club";
 import { skinColor } from "../Constants/skinColor";
 
-export function addEnemies(engine) {
+export function addEnemies(engine, club) {
   const enemies = [newEnemy(GetAbsolutWidthPosition(100))];
 
   Matter.World.add(engine.world, enemies);
@@ -17,7 +16,7 @@ export function addEnemies(engine) {
       body: enemies[0],
       renderer: EnemyPlayer,
       skinColor: skinColor.black,
-      club: club.luzern,
+      club: club,
     },
   };
 }

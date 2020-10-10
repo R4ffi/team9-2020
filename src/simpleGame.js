@@ -13,15 +13,23 @@ import { GameEngine } from "react-game-engine";
 import { addEnemies } from "./Entities/enemies";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
-import levelUpSound from './Assets/Sounds/levelup.mp3';
-import gameOverSound from './Assets/Sounds/gameOver.mp3';
-import headerSound from './Assets/Sounds/header.mp3';
+import levelUpSound from "./Assets/Sounds/levelup.mp3";
+import gameOverSound from "./Assets/Sounds/gameOver.mp3";
+import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
+import GameOver from "./gameOver";
+
+const clubOrder = [
+  club.luzern,
+  club.basel,
+  club.stGallen
+];
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
     super(props);
     this.playerHeight = 10;
+    this.clubPointer = 0;
     this.isGoal = false;
     this.state = {
       running: true,
@@ -108,8 +116,7 @@ export default class SimpleGame extends PureComponent {
         this.gameEngine.dispatch({ type: "game-over" });
       }
     });
-
-    const enemies = addEnemies(engine);
+    const enemies = addEnemies(engine, clubOrder[this.clubPointer]);
 
     return {
       ...enemies,
@@ -176,19 +183,27 @@ export default class SimpleGame extends PureComponent {
       >
         <div>
           <div style={styles.year}>{this.state.year}</div>
-          <div style={styles.trophy}>{this.state.trophy}<img src={pokal} alt="field" style={styles.trophyImage}></img></div>
-          
+          <div style={styles.trophy}>
+            {this.state.trophy}
+            <img src={pokal} alt="field" style={styles.trophyImage}></img>
+          </div>
+
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
             <div style={styles.fullScreen}>
-              <div style={styles.gameOverText}>Game Over</div>
-              <button class="btn btn-outline-secondary" onClick={this.reset} style={styles.gameOverSubText}>Try Again</button>
+              <GameOver reset={this.reset} />
             </div>
           )}
           {this.endreached && (
             <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Level Reached</div>
-              <button class="btn btn-outline-secondary" onClick={this.continue} style={styles.gameOverSubText}>Continue...</button>
+              <button
+                class="btn btn-outline-secondary"
+                onClick={this.continue}
+                style={styles.gameOverSubText}
+              >
+                Continue...
+              </button>
             </div>
           )}
         </div>
@@ -202,6 +217,9 @@ export default class SimpleGame extends PureComponent {
       year: this.state.year + 1,
       trophy: this.state.trophy + 1,
     });
+    if(++this.clubPointer >= clubOrder.length){
+      this.clubPointer = 0;
+    }
     this.gameEngine.swap(this.setupWorld());
   };
   reset = () => {
@@ -286,7 +304,7 @@ const styles = {
     fontFamily: '"04b_19", "Courier New"',
   },
   trophyImage: {
-    height: 80
+    height: 80,
   },
   year: {
     position: "absolute",
