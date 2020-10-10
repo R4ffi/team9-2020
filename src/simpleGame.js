@@ -13,6 +13,9 @@ import { GameEngine } from "react-game-engine";
 import { addEnemies } from "./Entities/enemies";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
+import levelUpSound from './Assets/Sounds/levelup.mp3';
+import gameOverSound from './Assets/Sounds/gameOver.mp3';
+import headerSound from './Assets/Sounds/header.mp3';
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -30,6 +33,10 @@ export default class SimpleGame extends PureComponent {
 
     this.entities = this.setupWorld();
   }
+
+  levelUpAudio = new Audio(levelUpSound);
+  gameOverAudio = new Audio(gameOverSound);
+  headerAudio = new Audio(headerSound);
 
   setupWorld = () => {
     this.isGoal = false;
@@ -82,6 +89,7 @@ export default class SimpleGame extends PureComponent {
             y: -GetAbsolutWidthPosition(1),
           });
         }
+        this.headerAudio.play();
         this.gameEngine.dispatch({ type: "score" });
       } else if (event.pairs.filter((element) => this.bodiesAreColliding(element, "floor", "ball")).length !== 0 && !this.isGoal) {
         //The ball collided with the floor.
@@ -112,6 +120,7 @@ export default class SimpleGame extends PureComponent {
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
+      this.gameOverAudio.play();
       this.setState({
         running: false,
       });
@@ -123,6 +132,7 @@ export default class SimpleGame extends PureComponent {
     } else if (e.type === "goal-reached") {
       this.isGoal = true;
     }else if ( e.type === "end-reached"){
+      this.levelUpAudio.play();
       this.endreached = true;
       this.setState({
         running: false,
