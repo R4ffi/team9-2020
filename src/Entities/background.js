@@ -20,7 +20,7 @@ const Background = (props) => {
     stadiumImage.current && stadiumImage.current.width > 0 &&
     stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width
   ) {
-    stadiumX = 0;
+    //stadiumX = 0;
     props.endReached();
   }
 

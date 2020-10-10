@@ -16,6 +16,7 @@ import { skinColor } from "./Constants/skinColor";
 import levelUpSound from './Assets/Sounds/levelup.mp3';
 import gameOverSound from './Assets/Sounds/gameOver.mp3';
 import headerSound from './Assets/Sounds/header.mp3';
+import pokal from "./Assets/Images/Pokal.jpg";
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -26,7 +27,7 @@ export default class SimpleGame extends PureComponent {
       running: true,
       score: 0,
       trophy: 0,
-      year: 2018
+      year: 2018,
     };
 
     this.gameEngine = null;
@@ -73,15 +74,21 @@ export default class SimpleGame extends PureComponent {
       }
     );
     player1.label = "player1";
+    player1.mass = 1;
+    player1.inverseMass = 1;
 
     Matter.World.add(world, [ball, floor1, player1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if (event.pairs.filter((element) => this.bodiesAreColliding(element, "player1", "ball")).length !== 0) {
+      if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "player1", "ball")
+        ).length !== 0
+      ) {
         if (this.isGoal) {
           ball.isNotFixed = true;
           Matter.Body.setVelocity(ball, {
             x: GetAbsolutWidthPosition(1),
-            y: ball.velocity.y
+            y: ball.velocity.y,
           });
         } else {
           Matter.Body.setVelocity(ball, {
@@ -91,7 +98,12 @@ export default class SimpleGame extends PureComponent {
         }
         this.headerAudio.play();
         this.gameEngine.dispatch({ type: "score" });
-      } else if (event.pairs.filter((element) => this.bodiesAreColliding(element, "floor", "ball")).length !== 0 && !this.isGoal) {
+      } else if (
+        event.pairs.filter((element) =>
+          this.bodiesAreColliding(element, "floor", "ball")
+        ).length !== 0 &&
+        !this.isGoal
+      ) {
         //The ball collided with the floor.
         this.gameEngine.dispatch({ type: "game-over" });
       }
@@ -113,7 +125,17 @@ export default class SimpleGame extends PureComponent {
         club: club.yb,
       },
 
-      bg: { stadium, city,  endReached: () => { this.gameEngine.dispatch({ type: "end-reached" }) }, goalReached: () => { this.gameEngine.dispatch({ type: "goal-reached" }) }, renderer: Background },
+      bg: {
+        stadium,
+        city,
+        endReached: () => {
+          this.gameEngine.dispatch({ type: "end-reached" });
+        },
+        goalReached: () => {
+          this.gameEngine.dispatch({ type: "goal-reached" });
+        },
+        renderer: Background,
+      },
     };
   };
 
@@ -131,9 +153,9 @@ export default class SimpleGame extends PureComponent {
       });
     } else if (e.type === "goal-reached") {
       this.isGoal = true;
-    }else if ( e.type === "end-reached"){
-      this.levelUpAudio.play();
+    } else if (e.type === "end-reached") {
       this.endreached = true;
+      this.levelUpAudio.play();
       this.setState({
         running: false,
       });
@@ -153,23 +175,22 @@ export default class SimpleGame extends PureComponent {
         entities={this.entities}
       >
         <div>
-        <div style={styles.year}>{this.state.year}</div>
-        <div style={styles.trophy}>{this.state.trophy}</div>
+          <div style={styles.year}>{this.state.year}</div>
+          <div style={styles.trophy}>{this.state.trophy}<img src={pokal} alt="field" style={styles.trophyImage}></img></div>
+          
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
-            <div onClick={this.reset} style={styles.fullScreen}>
+            <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Game Over</div>
-              <div style={styles.gameOverSubText}>Try Again</div>
+              <button class="btn btn-outline-secondary" onClick={this.reset} style={styles.gameOverSubText}>Try Again</button>
             </div>
           )}
-          {this.endreached &&
-          (
-            <div onClick={this.continue} style={styles.fullScreen}>
+          {this.endreached && (
+            <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Level Reached</div>
-              <div style={styles.gameOverSubText}>Continue...</div>
+              <button class="btn btn-outline-secondary" onClick={this.continue} style={styles.gameOverSubText}>Continue...</button>
             </div>
-          )
-          }
+          )}
         </div>
       </GameEngine>
     );
@@ -179,7 +200,7 @@ export default class SimpleGame extends PureComponent {
       running: true,
       score: this.state.score + 100,
       year: this.state.year + 1,
-      trophy: this.state.trophy + 1
+      trophy: this.state.trophy + 1,
     });
     this.gameEngine.swap(this.setupWorld());
   };
@@ -189,7 +210,7 @@ export default class SimpleGame extends PureComponent {
       running: true,
       score: 0,
       year: 2018,
-      trophy: 0
+      trophy: 0,
     });
   };
 
@@ -228,7 +249,6 @@ const styles = {
     fontFamily: "04b_19",
   },
   gameOverSubText: {
-    color: "white",
     fontSize: 24,
     fontFamily: "04b_19",
   },
@@ -256,21 +276,24 @@ const styles = {
   },
   trophy: {
     position: "absolute",
-    color: "white",
+    color: "#FFD700",
     fontSize: 72,
     top: 30,
-    left: Constants.MAX_WIDTH - Constants.MAX_WIDTH/3 - 20,
-    textShadowColor: "#444444",
+    left: Constants.MAX_WIDTH - (Constants.MAX_WIDTH / 4 - 20),
+    textShadowColor: "#FFD700",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
     fontFamily: "04b_19",
   },
+  trophyImage: {
+    height: 80
+  },
   year: {
     position: "absolute",
-    color: "white",
+    color: "#FFD700",
     fontSize: 72,
     top: 30,
-    left: Constants.MAX_WIDTH / 3 -20,
+    left: Constants.MAX_WIDTH / 4 - 80,
     textShadowColor: "#444444",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
