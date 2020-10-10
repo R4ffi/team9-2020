@@ -13,7 +13,6 @@ export default class Floor extends Component {
           position: "absolute",
           width: width,
           height: height,
-          backgroundColor: "red",
           left: x,
           top: y,
         }}
