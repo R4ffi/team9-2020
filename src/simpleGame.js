@@ -19,6 +19,7 @@ import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
 import GameOver from "./gameOver";
 import LevelUp from "./levelUp";
+import Welcome from "./welcome";
 
 const clubOrder = [club.luzern, club.basel, club.stGallen];
 
@@ -29,7 +30,8 @@ export default class SimpleGame extends PureComponent {
     this.clubPointer = 0;
     this.isGoal = false;
     this.state = {
-      running: true,
+      welcome: true,
+      running: false,
       score: 0,
       trophy: 0,
       year: 2018,
@@ -45,6 +47,7 @@ export default class SimpleGame extends PureComponent {
   headerAudio = new Audio(headerSound);
 
   setupWorld = () => {
+    this.clubPointer = 0;
     this.isGoal = false;
     this.endreached = false;
     let engine = Matter.Engine.create();
@@ -186,7 +189,7 @@ export default class SimpleGame extends PureComponent {
           </div>
 
           <div style={styles.score}>{this.state.score}</div>
-          {!this.state.running && !this.endreached && (
+          {!this.state.running && !this.endreached && !this.state.welcome && (
             <div style={styles.fullScreen}>
               <GameOver reset={this.reset} />
             </div>
@@ -194,6 +197,11 @@ export default class SimpleGame extends PureComponent {
           {this.endreached && (
             <div style={styles.fullScreen}>
               <LevelUp continue={this.continue} />
+            </div>
+          )}
+          {!this.state.running && this.state.welcome && (
+            <div style={styles.fullScreen}>
+              <Welcome start={() => this.setState({running: true, welcome: false})} />
             </div>
           )}
         </div>
