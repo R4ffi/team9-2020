@@ -13,10 +13,11 @@ import { GameEngine } from "react-game-engine";
 import { addEnemies } from "./Entities/enemies";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
-import levelUpSound from './Assets/Sounds/levelup.mp3';
-import gameOverSound from './Assets/Sounds/gameOver.mp3';
-import headerSound from './Assets/Sounds/header.mp3';
+import levelUpSound from "./Assets/Sounds/levelup.mp3";
+import gameOverSound from "./Assets/Sounds/gameOver.mp3";
+import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
+import GameOver from "./gameOver";
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -176,19 +177,27 @@ export default class SimpleGame extends PureComponent {
       >
         <div>
           <div style={styles.year}>{this.state.year}</div>
-          <div style={styles.trophy}>{this.state.trophy}<img src={pokal} alt="field" style={styles.trophyImage}></img></div>
-          
+          <div style={styles.trophy}>
+            {this.state.trophy}
+            <img src={pokal} alt="field" style={styles.trophyImage}></img>
+          </div>
+
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
             <div style={styles.fullScreen}>
-              <div style={styles.gameOverText}>Game Over</div>
-              <button class="btn btn-outline-secondary" onClick={this.reset} style={styles.gameOverSubText}>Try Again</button>
+              <GameOver reset={this.reset} />
             </div>
           )}
           {this.endreached && (
             <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Level Reached</div>
-              <button class="btn btn-outline-secondary" onClick={this.continue} style={styles.gameOverSubText}>Continue...</button>
+              <button
+                class="btn btn-outline-secondary"
+                onClick={this.continue}
+                style={styles.gameOverSubText}
+              >
+                Continue...
+              </button>
             </div>
           )}
         </div>
@@ -286,7 +295,7 @@ const styles = {
     fontFamily: "04b_19",
   },
   trophyImage: {
-    height: 80
+    height: 80,
   },
   year: {
     position: "absolute",
