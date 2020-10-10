@@ -201,7 +201,18 @@ export default class SimpleGame extends PureComponent {
           )}
           {!this.state.running && this.state.welcome && (
             <div style={styles.fullScreen}>
-              <Welcome start={() => this.setState({running: true, welcome: false})} />
+              <Welcome start={() => {this.setState({running: true, welcome: false});
+              var elem = document.documentElement;
+              if (elem.requestFullscreen) {
+                  elem.requestFullscreen();
+              } else if (elem.mozRequestFullScreen) { /* Firefox */
+                  elem.mozRequestFullScreen();
+              } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                  elem.webkitRequestFullscreen();
+              } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                  elem.msRequestFullscreen();
+              }
+              console.log("fullscreen");}} />
             </div>
           )}
         </div>
