@@ -13,6 +13,8 @@ import { GameEngine } from "react-game-engine";
 import { addEnemies } from "./Entities/enemies";
 import { club } from "./Constants/club";
 import { skinColor } from "./Constants/skinColor";
+import pokal from "./Assets/Images/Pokal.jpg";
+
 
 export default class SimpleGame extends PureComponent {
   constructor(props) {
@@ -165,7 +167,8 @@ export default class SimpleGame extends PureComponent {
       >
         <div>
           <div style={styles.year}>{this.state.year}</div>
-          <div style={styles.trophy}>{this.state.trophy}</div>
+          <div style={styles.trophy}>{this.state.trophy}<img src={pokal} alt="field" style={styles.trophyImage}></img></div>
+          
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
             <div style={styles.fullScreen}>
@@ -272,6 +275,9 @@ const styles = {
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
     fontFamily: "04b_19",
+  },
+  trophyImage: {
+    height: 80
   },
   year: {
     position: "absolute",
