@@ -11,16 +11,17 @@ const Background = (props) => {
   let cityX = props.city.position.x - Constants.SPEED_CITY;
   if (
     stadiumImage.current && stadiumImage.current.width > 0 &&
-    stadiumX - Constants.MAX_WIDTH*1.5 < -stadiumImage.current.width
+    stadiumX - Constants.MAX_WIDTH*2 < -stadiumImage.current.width
   ){
     props.goalReached();
   }
 
   if (
-    stadiumImage.current &&
+    stadiumImage.current && stadiumImage.current.width > 0 &&
     stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width
   ) {
     stadiumX = 0;
+    props.endReached();
   }
 
   if (

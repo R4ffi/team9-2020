@@ -22,6 +22,8 @@ export default class SimpleGame extends PureComponent {
     this.state = {
       running: true,
       score: 0,
+      trophy: 0,
+      year: 2018,
     };
 
     this.gameEngine = null;
@@ -30,6 +32,8 @@ export default class SimpleGame extends PureComponent {
   }
 
   setupWorld = () => {
+    this.isGoal = false;
+    this.endreached = false;
     let engine = Matter.Engine.create();
     let world = engine.world;
     world.gravity.y = Constants.GRAVITY;
@@ -115,9 +119,11 @@ export default class SimpleGame extends PureComponent {
       bg: {
         stadium,
         city,
+        endReached: () => {
+          this.gameEngine.dispatch({ type: "end-reached" });
+        },
         goalReached: () => {
           this.gameEngine.dispatch({ type: "goal-reached" });
-          console.log("goal reached");
         },
         renderer: Background,
       },
@@ -137,6 +143,11 @@ export default class SimpleGame extends PureComponent {
       });
     } else if (e.type === "goal-reached") {
       this.isGoal = true;
+    } else if (e.type === "end-reached") {
+      this.endreached = true;
+      this.setState({
+        running: false,
+      });
     }
   };
 
@@ -153,22 +164,41 @@ export default class SimpleGame extends PureComponent {
         entities={this.entities}
       >
         <div>
+          <div style={styles.year}>{this.state.year}</div>
+          <div style={styles.trophy}>{this.state.trophy}</div>
           <div style={styles.score}>{this.state.score}</div>
-          {!this.state.running && (
+          {!this.state.running && !this.endreached && (
             <div onClick={this.reset} style={styles.fullScreen}>
               <div style={styles.gameOverText}>Game Over</div>
               <div style={styles.gameOverSubText}>Try Again</div>
+            </div>
+          )}
+          {this.endreached && (
+            <div onClick={this.continue} style={styles.fullScreen}>
+              <div style={styles.gameOverText}>Level Reached</div>
+              <div style={styles.gameOverSubText}>Continue...</div>
             </div>
           )}
         </div>
       </GameEngine>
     );
   }
+  continue = () => {
+    this.setState({
+      running: true,
+      score: this.state.score + 100,
+      year: this.state.year + 1,
+      trophy: this.state.trophy + 1,
+    });
+    this.gameEngine.swap(this.setupWorld());
+  };
   reset = () => {
     this.gameEngine.swap(this.setupWorld());
     this.setState({
       running: true,
       score: 0,
+      year: 2018,
+      trophy: 0,
     });
   };
 
@@ -226,8 +256,30 @@ const styles = {
     position: "absolute",
     color: "white",
     fontSize: 72,
-    top: 50,
+    top: 30,
     left: Constants.MAX_WIDTH / 2 - 20,
+    textShadowColor: "#444444",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: "04b_19",
+  },
+  trophy: {
+    position: "absolute",
+    color: "white",
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH - Constants.MAX_WIDTH / 3 - 20,
+    textShadowColor: "#444444",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: "04b_19",
+  },
+  year: {
+    position: "absolute",
+    color: "white",
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH / 3 - 20,
     textShadowColor: "#444444",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
