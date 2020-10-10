@@ -246,11 +246,11 @@ const styles = {
   gameOverText: {
     color: "white",
     fontSize: 48,
-    fontFamily: "04b_19",
+    fontFamily: '"04b_19", "Courier New"',
   },
   gameOverSubText: {
     fontSize: 24,
-    fontFamily: "04b_19",
+    fontFamily: '"04b_19", "Courier New"',
   },
   fullScreen: {
     position: "absolute",
@@ -272,7 +272,7 @@ const styles = {
     textShadowColor: "#444444",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
-    fontFamily: "04b_19",
+    fontFamily: '"04b_19", "Courier New"',
   },
   trophy: {
     position: "absolute",
@@ -283,7 +283,7 @@ const styles = {
     textShadowColor: "#FFD700",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
-    fontFamily: "04b_19",
+    fontFamily: '"04b_19", "Courier New"',
   },
   trophyImage: {
     height: 80
@@ -297,7 +297,7 @@ const styles = {
     textShadowColor: "#444444",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
-    fontFamily: "04b_19",
+    fontFamily: '"04b_19", "Courier New"',
   },
   fullScreenButton: {
     position: "absolute",
