@@ -42,6 +42,7 @@ const styles = {
   button: {
     fontSize: GetAbsolutHeightPosition(3),
     width: "100%",
+    fontFamily: '"04b_19", "Courier New"',
   },
 };
 
