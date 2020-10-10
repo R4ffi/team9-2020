@@ -19,9 +19,9 @@ import headerSound from './Assets/Sounds/header.mp3';
 import pokal from "./Assets/Images/Pokal.jpg";
 
 const clubOrder = [
-  "luzern",
-  "basel",
-  "st-gallen"
+  club.luzern,
+  club.basel,
+  club.stGallen
 ];
 
 export default class SimpleGame extends PureComponent {
