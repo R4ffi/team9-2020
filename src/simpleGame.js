@@ -47,7 +47,6 @@ export default class SimpleGame extends PureComponent {
   headerAudio = new Audio(headerSound);
 
   setupWorld = () => {
-    this.clubPointer = 0;
     this.isGoal = false;
     this.endreached = false;
     let engine = Matter.Engine.create();
@@ -149,6 +148,7 @@ export default class SimpleGame extends PureComponent {
   onEvent = (e) => {
     if (e.type === "game-over") {
       //Alert.alert("Game Over");
+      this.clubPointer = 0;
       this.gameOverAudio.play();
       this.setState({
         running: false,
