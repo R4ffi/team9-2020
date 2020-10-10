@@ -168,15 +168,15 @@ export default class SimpleGame extends PureComponent {
           <div style={styles.trophy}>{this.state.trophy}</div>
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && (
-            <div onClick={this.reset} style={styles.fullScreen}>
+            <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Game Over</div>
-              <div style={styles.gameOverSubText}>Try Again</div>
+              <button class="btn btn-outline-secondary" onClick={this.reset} style={styles.gameOverSubText}>Try Again</button>
             </div>
           )}
           {this.endreached && (
-            <div onClick={this.continue} style={styles.fullScreen}>
+            <div style={styles.fullScreen}>
               <div style={styles.gameOverText}>Level Reached</div>
-              <div style={styles.gameOverSubText}>Continue...</div>
+              <button class="btn btn-outline-secondary" onClick={this.continue} style={styles.gameOverSubText}>Continue...</button>
             </div>
           )}
         </div>
@@ -237,7 +237,6 @@ const styles = {
     fontFamily: "04b_19",
   },
   gameOverSubText: {
-    color: "white",
     fontSize: 24,
     fontFamily: "04b_19",
   },
@@ -265,18 +264,18 @@ const styles = {
   },
   trophy: {
     position: "absolute",
-    color: "white",
+    color: "#FFD700",
     fontSize: 72,
     top: 30,
     left: Constants.MAX_WIDTH - (Constants.MAX_WIDTH / 4 - 20),
-    textShadowColor: "#444444",
+    textShadowColor: "#FFD700",
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
     fontFamily: "04b_19",
   },
   year: {
     position: "absolute",
-    color: "white",
+    color: "#FFD700",
     fontSize: 72,
     top: 30,
     left: Constants.MAX_WIDTH / 4 - 80,
