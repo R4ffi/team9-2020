@@ -16,6 +16,62 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <style>
+        .phone {
+            height: 50px;
+            width: 100px;
+            border: 3px solid white;
+            border-radius: 10px;
+            animation: rotate 1.5s ease-in-out infinite alternate;
+            /* display: none; */
+        }
+        
+        .message {
+            color: white;
+            font-size: 1em;
+            margin-top: 40px;
+            /* display: none; */
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg)
+            }
+            50% {
+                transform: rotate(-90deg)
+            }
+            100% {
+                transform: rotate(-90deg)
+            }
+        }
+        
+        @media only screen and (max-device-width: 812px) and (orientation: portrait) {
+            html,
+            body {
+                background: black;
+                height: 100%;
+                width: 100%;
+            }
+            #root {
+                display: none;
+            }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            .phone,
+            .message {
+                display: block;
+            }
+        }
+    </style>
+    <div class="phone">
+    </div>
+    <div class="message">
+        Please rotate your device!
+    </div>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,9 +85,6 @@
 </head>
 
 <body>
-    <script>
-        screen.orientation.lock('landscape');
-    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
