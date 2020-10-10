@@ -201,7 +201,7 @@ export default class SimpleGame extends PureComponent {
           )}
           {!this.state.running && this.state.welcome && (
             <div style={styles.fullScreen}>
-              <Welcome start={() => {this.setState({running: true, welcome: false});
+              <Welcome start={() => {
               var elem = document.documentElement;
               if (elem.requestFullscreen) {
                   elem.requestFullscreen();
@@ -212,7 +212,10 @@ export default class SimpleGame extends PureComponent {
               } else if (elem.msRequestFullscreen) { /* IE/Edge */
                   elem.msRequestFullscreen();
               }
-              console.log("fullscreen");}} />
+              console.log("fullscreen");
+              setTimeout(() => this.setState({running: true, welcome: false}), 1300);
+            }
+              } />
             </div>
           )}
         </div>
