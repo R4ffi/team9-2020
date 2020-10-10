@@ -5,6 +5,8 @@ const GameOver = (props) => {
   const width = GetAbsolutWidthPosition(30);
   const x = GetAbsolutWidthPosition(50) - width / 2;
 
+  const sponsor = Math.floor(Math.random() * 10) + 1;
+
   return (
     <div
       style={{
@@ -12,6 +14,7 @@ const GameOver = (props) => {
         width: width,
         left: x,
         top: 0,
+        textAlign: "center",
       }}
     >
       <svg viewBox="0 -64 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -34,6 +37,11 @@ const GameOver = (props) => {
       >
         Probier nomau
       </button>
+      <img
+        src={`https://fyberstore.blob.core.windows.net/sponsors/${sponsor}.png`}
+        alt="Sponsor Logo"
+        style={{ marginTop: GetAbsolutWidthPosition(3) }}
+      />
     </div>
   );
 };
