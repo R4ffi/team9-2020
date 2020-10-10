@@ -19,10 +19,17 @@ import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
 import GameOver from "./gameOver";
 
+const clubOrder = [
+  club.luzern,
+  club.basel,
+  club.stGallen
+];
+
 export default class SimpleGame extends PureComponent {
   constructor(props) {
     super(props);
     this.playerHeight = 10;
+    this.clubPointer = 0;
     this.isGoal = false;
     this.state = {
       running: true,
@@ -109,8 +116,7 @@ export default class SimpleGame extends PureComponent {
         this.gameEngine.dispatch({ type: "game-over" });
       }
     });
-
-    const enemies = addEnemies(engine);
+    const enemies = addEnemies(engine, clubOrder[this.clubPointer]);
 
     return {
       ...enemies,
@@ -211,6 +217,9 @@ export default class SimpleGame extends PureComponent {
       year: this.state.year + 1,
       trophy: this.state.trophy + 1,
     });
+    if(++this.clubPointer >= clubOrder.length){
+      this.clubPointer = 0;
+    }
     this.gameEngine.swap(this.setupWorld());
   };
   reset = () => {
