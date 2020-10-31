@@ -8,4 +8,4 @@ const skinColor = {
   },
 };
 
-export { skinColor };
+export { skinColor as default };

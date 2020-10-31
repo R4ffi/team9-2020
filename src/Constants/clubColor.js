@@ -1,4 +1,4 @@
-import { club } from './club';
+import club from './club';
 
 const clubColor = {
   [club.basel]: {
@@ -23,4 +23,4 @@ const clubColor = {
   },
 };
 
-export { clubColor };
+export { clubColor as default };

@@ -1,19 +1,26 @@
 import Matter from 'matter-js';
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import stadiumImageSource from '../Assets/Images/stadium.png';
 import Constants from '../Constants';
-import city from '../Assets/Images/city.png';
-import stadium from '../Assets/Images/stadium.png';
+import cityImageSource from '../Assets/Images/city.png';
 
 const Background = (props) => {
   const stadiumImage = useRef(null);
   const cityImage = useRef(null);
-  const stadiumX = props.stadium.position.x - Constants.SPEED_STADIUM;
-  let cityX = props.city.position.x - Constants.SPEED_CITY;
-  if (stadiumImage.current && stadiumImage.current.width > 0 && stadiumX - Constants.MAX_WIDTH * 2 < -stadiumImage.current.width) {
+
+  const { city, stadium } = props;
+
+  let cityX = city.position.x - Constants.SPEED_CITY;
+  const stadiumX = stadium.position.x - Constants.SPEED_STADIUM;
+
+  if (stadiumImage.current && stadiumImage.current.width > 0
+    && stadiumX - Constants.MAX_WIDTH * 2 < -stadiumImage.current.width) {
     props.goalReached();
   }
 
-  if (stadiumImage.current && stadiumImage.current.width > 0 && stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width) {
+  if (stadiumImage.current && stadiumImage.current.width > 0
+    && stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width) {
     // stadiumX = 0;
     props.endReached();
   }
@@ -21,14 +28,14 @@ const Background = (props) => {
   if (cityImage.current && cityX - Constants.MAX_WIDTH < -cityImage.current.width) {
     cityX = 0;
   }
-  Matter.Body.setPosition(props.stadium, {
+  Matter.Body.setPosition(stadium, {
     x: stadiumX,
-    y: props.stadium.position.y,
+    y: stadium.position.y,
   });
 
-  Matter.Body.setPosition(props.city, {
+  Matter.Body.setPosition(city, {
     x: cityX,
-    y: props.city.position.y,
+    y: city.position.y,
   });
 
   return (
@@ -42,7 +49,7 @@ const Background = (props) => {
           left: `${cityX}px`,
         }}
       >
-        <img ref={cityImage} src={city} alt="field" height="100%" />
+        <img ref={cityImage} src={cityImageSource} alt="field" height="100%" />
       </div>
       <div
         style={{
@@ -53,10 +60,17 @@ const Background = (props) => {
           left: `${stadiumX}px`,
         }}
       >
-        <img ref={stadiumImage} src={stadium} alt="field" height="100%" />
+        <img ref={stadiumImage} src={stadiumImageSource} alt="field" height="100%" />
       </div>
     </>
   );
+};
+
+Background.propTypes = {
+  city: PropTypes.instanceOf(Matter.Body).isRequired,
+  stadium: PropTypes.instanceOf(Matter.Body).isRequired,
+  endReached: PropTypes.func.isRequired,
+  goalReached: PropTypes.func.isRequired,
 };
 
 export default Background;

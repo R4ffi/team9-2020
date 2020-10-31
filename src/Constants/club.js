@@ -5,4 +5,4 @@ const club = {
   yb: 'yb',
 };
 
-export { club };
+export { club as default };

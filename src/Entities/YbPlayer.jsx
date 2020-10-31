@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Matter from 'matter-js';
 import Constants from '../Constants';
-import { clubColor } from '../Constants/clubColor';
+import clubColor from '../Constants/clubColor';
 
 export default class YbPlayer extends Component {
   render() {

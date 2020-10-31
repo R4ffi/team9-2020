@@ -1,7 +1,7 @@
 import Matter from 'matter-js';
 import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from '../Constants';
 import EnemyPlayer from './EnemyPlayer';
-import { skinColor } from '../Constants/skinColor';
+import skinColor from '../Constants/skinColor';
 
 export function addEnemies(engine, club) {
   const enemies = [newEnemy(GetAbsolutWidthPosition(100))];

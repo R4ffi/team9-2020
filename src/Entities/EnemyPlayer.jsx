@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Matter from 'matter-js';
-import { clubColor } from '../Constants/clubColor';
+import clubColor from '../Constants/clubColor';
 import Constants from '../Constants';
-import { skinColor } from '../Constants/skinColor';
+import skinColor from '../Constants/skinColor';
 
 export default class EnemyPlayer extends Component {
   constructor() {
