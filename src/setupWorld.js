@@ -1,0 +1,104 @@
+import Matter from 'matter-js';
+import Background from './Entities/Background';
+import Ball from './Entities/Ball';
+import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from './Constants';
+import Floor from './Entities/Floor';
+import YbPlayer from './Entities/YbPlayer';
+import addEnemies from './Entities/enemies';
+import club from './Constants/club';
+import headerSound from './Assets/Sounds/header.mp3';
+import skinColor from './Constants/skinColor';
+
+const headerAudio = new Audio(headerSound);
+
+const bodiesAreColliding = (pair, nameA, nameB) => {
+  const isAColidingWithB = (pair.bodyB.label === nameA && pair.bodyA.label === nameB);
+  const isBColidingWithA = (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
+  return isAColidingWithB || isBColidingWithA;
+};
+
+const setupWorld = (gameEngine, isGoalReached, enemy) => {
+  const engine = Matter.Engine.create();
+  const { world } = engine;
+  world.gravity.y = Constants.GRAVITY;
+  const ball = Matter.Bodies.circle(Constants.MAX_WIDTH / 2, 0, GetAbsolutHeightPosition(3));
+  const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
+  const city = Matter.Bodies.rectangle(0, 0, 0, 0);
+
+  ball.label = 'ball';
+  ball.isNotFixed = false;
+
+  const floor1 = Matter.Bodies.rectangle(
+    Constants.MAX_WIDTH / 2,
+    Constants.MAX_HEIGHT - GetAbsolutHeightPosition(10),
+    Constants.MAX_WIDTH + 4,
+    GetAbsolutHeightPosition(10),
+    { isStatic: true },
+  );
+  floor1.label = 'floor';
+  const player1 = Matter.Bodies.rectangle(
+    Constants.MAX_WIDTH / 2,
+    Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
+    GetAbsolutWidthPosition(10),
+    GetAbsolutHeightPosition(20),
+    {
+      inertia: Infinity,
+    },
+  );
+  player1.label = 'player1';
+  player1.mass = 1;
+  player1.inverseMass = 1;
+
+  Matter.World.add(world, [ball, floor1, player1]);
+  Matter.Events.on(engine, 'collisionStart', (event) => {
+    if (event.pairs.filter((element) => bodiesAreColliding(element, 'player1', 'ball')).length !== 0) {
+      if (isGoalReached) {
+        ball.isNotFixed = true;
+        Matter.Body.setVelocity(ball, {
+          x: GetAbsolutWidthPosition(1),
+          y: ball.velocity.y,
+        });
+      } else {
+        Matter.Body.setVelocity(ball, {
+          x: ball.velocity.x,
+          y: -GetAbsolutWidthPosition(1),
+        });
+      }
+      headerAudio.play();
+      gameEngine.current.dispatch({ type: 'score' });
+    } else if (event.pairs.filter((element) => bodiesAreColliding(element, 'floor', 'ball')).length !== 0 && !isGoalReached) {
+      // The ball collided with the floor.
+      gameEngine.current.dispatch({ type: 'game-over' });
+    }
+  });
+  const enemies = addEnemies(engine, enemy);
+
+  return {
+    ...enemies,
+    physics: { engine, world },
+    ball: { body: ball, renderer: Ball },
+    floor1: { body: floor1, renderer: Floor },
+    player1: {
+      body: player1,
+      stadium,
+      city,
+      renderer: YbPlayer,
+      skinColor: skinColor.latin,
+      club: club.yb,
+    },
+
+    bg: {
+      stadium,
+      city,
+      endReached: () => {
+        gameEngine.current.dispatch({ type: 'end-reached' });
+      },
+      goalReached: () => {
+        gameEngine.current.dispatch({ type: 'goal-reached' });
+      },
+      renderer: Background,
+    },
+  };
+};
+
+export default setupWorld;
