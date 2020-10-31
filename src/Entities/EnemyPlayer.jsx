@@ -6,9 +6,8 @@ import Constants from '../Constants';
 import skinColor from '../Constants/skinColor';
 import clubName from '../Constants/club';
 
-const EnemyPlayer = (props) => {
+const EnemyPlayer = ({ body, club }) => {
   const [currentSkinColor, setCurrentSkinColor] = useState(skinColor.randomSkinColor());
-  const { body, club } = props;
 
   const sizeY = body.bounds.max.y - body.bounds.min.y;
   const sizeX = body.bounds.max.x - body.bounds.min.x;

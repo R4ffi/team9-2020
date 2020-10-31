@@ -2,9 +2,7 @@ import React from 'react';
 import Matter from 'matter-js';
 import PropTypes from 'prop-types';
 
-const Floor = (props) => {
-  const { body } = props;
-
+const Floor = ({ body }) => {
   const width = body.bounds.max.x - body.bounds.min.x;
   const height = body.bounds.max.y - body.bounds.min.y;
   const x = body.position.x - width / 2;

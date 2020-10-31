@@ -10,8 +10,7 @@ const styles = {
   },
 };
 
-const LevelUp = (props) => {
-  const { onContinue } = props;
+const LevelUp = ({ onContinue }) => {
   const width = GetAbsolutWidthPosition(30);
   const x = GetAbsolutWidthPosition(50) - width / 2;
 

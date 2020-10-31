@@ -1,7 +1,7 @@
 import Matter from 'matter-js';
 import Constants from '../Constants';
 
-const Physics = (entities, { touches, time, input }) => {
+const Physics = (entities, { time, input }) => {
   // Handle User Input
   const { payload } = input.find((x) => x.name === 'onMouseDown' || x.name === 'onKeyDown') || {};
   if (payload) {

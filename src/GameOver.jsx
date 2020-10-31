@@ -10,9 +10,7 @@ const styles = {
   },
 };
 
-const GameOver = (props) => {
-  const { onReset } = props;
-
+const GameOver = ({ onReset }) => {
   const width = GetAbsolutWidthPosition(30);
   const x = GetAbsolutWidthPosition(50) - width / 2;
 

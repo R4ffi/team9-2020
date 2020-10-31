@@ -5,11 +5,9 @@ import stadiumImageSource from '../Assets/Images/stadium.png';
 import Constants from '../Constants';
 import cityImageSource from '../Assets/Images/city.png';
 
-const Background = (props) => {
+const Background = ({ city, stadium }) => {
   const stadiumImage = useRef(null);
   const cityImage = useRef(null);
-
-  const { city, stadium } = props;
 
   let cityX = city.position.x - Constants.SPEED_CITY;
   const stadiumX = stadium.position.x - Constants.SPEED_STADIUM;

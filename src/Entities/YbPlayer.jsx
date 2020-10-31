@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import Constants from '../Constants';
 import clubColor from '../Constants/clubColor';
 
-const YbPlayer = (props) => {
-  const { body, club, skinColor } = props;
-
+const YbPlayer = ({ body, club, skinColor }) => {
   const sizeY = body.bounds.max.y - body.bounds.min.y;
   const sizeX = body.bounds.max.x - body.bounds.min.x;
   const { primaryColor, pantsColor } = clubColor[club];

@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import soccerBall from '../Assets/Images/soccer-ball.svg';
 import Constants from '../Constants';
 
-const Ball = (props) => {
-  const { body } = props;
-
+const Ball = ({ body }) => {
   const width = body.bounds.max.x - body.bounds.min.x;
   const height = body.bounds.max.y - body.bounds.min.y;
   let x = Constants.MAX_WIDTH / 2;
