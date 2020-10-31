@@ -186,7 +186,7 @@ export default class SimpleGame extends PureComponent {
           {!this.state.running && this.state.welcome && (
             <div style={styles.fullScreen}>
               <Welcome
-                start={() => {
+                onStart={() => {
                   var elem = document.documentElement;
                   if (elem.requestFullscreen) {
                     elem.requestFullscreen();

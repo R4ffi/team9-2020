@@ -1,7 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from './Constants';
 
-const Welcome = (props) => {
+const styles = {
+  button: {
+    fontSize: GetAbsolutHeightPosition(3),
+    width: '100%',
+    fontFamily: '"04b_19", "Courier New"',
+  },
+};
+
+const Welcome = ({ onStart }) => {
   const width = GetAbsolutWidthPosition(30);
   const x = GetAbsolutWidthPosition(50) - width / 2;
 
@@ -70,19 +79,15 @@ const Welcome = (props) => {
           />
         </g>
       </svg>
-      <button className="btn btn-outline-secondary" onClick={props.start} style={styles.button}>
+      <button className="btn btn-outline-secondary" type="button" onClick={onStart} style={styles.button}>
         Spiu starte
       </button>
     </div>
   );
 };
 
-const styles = {
-  button: {
-    fontSize: GetAbsolutHeightPosition(3),
-    width: '100%',
-    fontFamily: '"04b_19", "Courier New"',
-  },
+Welcome.propTypes = {
+  onStart: PropTypes.func.isRequired,
 };
 
 export default Welcome;
