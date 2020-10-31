@@ -1,23 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Matter from 'matter-js';
+import PropTypes from 'prop-types';
 
-export default class Floor extends Component {
-  render() {
-    const width = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
-    const height = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
-    const x = this.props.body.position.x - width / 2;
-    const y = this.props.body.position.y - height / 2;
+const Floor = (props) => {
+  const { body } = props;
 
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          width,
-          height,
-          left: x,
-          top: y,
-        }}
-      />
-      // <Animated.Image
-    );
-  }
-}
+  const width = body.bounds.max.x - body.bounds.min.x;
+  const height = body.bounds.max.y - body.bounds.min.y;
+  const x = body.position.x - width / 2;
+  const y = body.position.y - height / 2;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        width,
+        height,
+        left: x,
+        top: y,
+      }}
+    />
+  );
+};
+
+Floor.propTypes = {
+  body: PropTypes.instanceOf(Matter.Body).isRequired,
+};
+
+export default Floor;
