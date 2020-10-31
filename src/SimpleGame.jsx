@@ -1,86 +1,161 @@
-import Background from "./Entities/Background";
-import Ball from "./Entities/Ball";
-import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "./Constants";
-import Floor from "./Entities/Floor";
-import Matter from "matter-js";
-import Physics from "./Physics/Physics";
-import React, { PureComponent } from "react";
-import YbPlayer from "./Entities/YbPlayer";
-import { GameEngine } from "react-game-engine";
-import  addEnemies  from "./Entities/enemies";
-import club from "./Constants/club";
-import  skinColor  from "./Constants/skinColor";
-import levelUpSound from "./Assets/Sounds/levelup.mp3";
-import gameOverSound from "./Assets/Sounds/gameOver.mp3";
-import headerSound from "./Assets/Sounds/header.mp3";
-import pokal from "./Assets/Images/Pokal.jpg";
-import GameOver from "./GameOver";
-import LevelUp from "./LevelUp";
-import Welcome from "./Welcome";
+import Matter from 'matter-js';
+import React, { useState, useRef } from 'react';
+import { GameEngine } from 'react-game-engine';
+import Background from './Entities/Background';
+import Ball from './Entities/Ball';
+import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from './Constants';
+import Floor from './Entities/Floor';
+import Physics from './Physics/Physics';
+import YbPlayer from './Entities/YbPlayer';
+import addEnemies from './Entities/enemies';
+import club from './Constants/club';
+import skinColor from './Constants/skinColor';
+import levelUpSound from './Assets/Sounds/levelup.mp3';
+import gameOverSound from './Assets/Sounds/gameOver.mp3';
+import headerSound from './Assets/Sounds/header.mp3';
+import pokal from './Assets/Images/Pokal.jpg';
+import GameOver from './GameOver';
+import LevelUp from './LevelUp';
+import Welcome from './Welcome';
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: Constants.MAX_WIDTH,
+    height: Constants.MAX_HEIGHT,
+  },
+  gameContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'black',
+    opacity: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  score: {
+    position: 'absolute',
+    color: 'white',
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH / 2 - 20,
+    textShadowColor: '#444444',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: '"04b_19", "Courier New"',
+  },
+  trophy: {
+    position: 'absolute',
+    color: '#FFD700',
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH - (Constants.MAX_WIDTH / 4 - 20),
+    textShadowColor: '#FFD700',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: '"04b_19", "Courier New"',
+  },
+  trophyImage: {
+    height: 80,
+  },
+  year: {
+    position: 'absolute',
+    color: '#FFD700',
+    fontSize: 72,
+    top: 30,
+    left: Constants.MAX_WIDTH / 4 - 80,
+    textShadowColor: '#444444',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
+    fontFamily: '"04b_19", "Courier New"',
+  },
+  fullScreenButton: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flex: 1,
+  },
+};
 
 const clubOrder = [club.luzern, club.basel, club.stGallen];
 
-export default class SimpleGame extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.playerHeight = 10;
-    this.clubPointer = 0;
-    this.isGoal = false;
-    this.state = {
-      welcome: true,
-      running: false,
-      score: 0,
-      trophy: 0,
-      year: 2018,
-    };
+const SimpleGame = () => {
+  const gameEngine = useRef(null);
 
-    this.gameEngine = null;
+  const [clubIndex, setClubIndex] = useState(0);
+  const [isGoalReached, setGoalReached] = useState(false);
+  const [isEndReached, setEndReached] = useState(false);
+  const [isWelcomeScreenVisible, showWelcomeScreen] = useState(true);
+  const [isGameRunning, runGame] = useState(false);
+  const [score, setScore] = useState(0);
+  const [numberOfTrophies, setNumberOfTrophies] = useState(0);
+  const [year, setYear] = useState(2018);
 
-    this.entities = this.setupWorld();
-  }
+  const levelUpAudio = new Audio(levelUpSound);
+  const gameOverAudio = new Audio(gameOverSound);
+  const headerAudio = new Audio(headerSound);
 
-  levelUpAudio = new Audio(levelUpSound);
-  gameOverAudio = new Audio(gameOverSound);
-  headerAudio = new Audio(headerSound);
+  const bodiesAreColliding = (pair, nameA, nameB) => {
+    const isAColidingWithB = (pair.bodyB.label === nameA && pair.bodyA.label === nameB);
+    const isBColidingWithA = (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
+    return isAColidingWithB || isBColidingWithA;
+  };
 
-  setupWorld = () => {
-    this.isGoal = false;
-    this.endreached = false;
-    let engine = Matter.Engine.create();
-    let world = engine.world;
+  const setupWorld = () => {
+    const engine = Matter.Engine.create();
+    const { world } = engine;
     world.gravity.y = Constants.GRAVITY;
-    let ball = Matter.Bodies.circle(Constants.MAX_WIDTH / 2, 0, GetAbsolutHeightPosition(3));
+    const ball = Matter.Bodies.circle(Constants.MAX_WIDTH / 2, 0, GetAbsolutHeightPosition(3));
     const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
     const city = Matter.Bodies.rectangle(0, 0, 0, 0);
 
-    ball.label = "ball";
+    ball.label = 'ball';
     ball.isNotFixed = false;
 
-    let floor1 = Matter.Bodies.rectangle(
+    const floor1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT - GetAbsolutHeightPosition(10),
       Constants.MAX_WIDTH + 4,
       GetAbsolutHeightPosition(10),
-      { isStatic: true }
+      { isStatic: true },
     );
-    floor1.label = "floor";
-    let player1 = Matter.Bodies.rectangle(
+    floor1.label = 'floor';
+    const player1 = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
       GetAbsolutWidthPosition(10),
       GetAbsolutHeightPosition(20),
       {
         inertia: Infinity,
-      }
+      },
     );
-    player1.label = "player1";
+    player1.label = 'player1';
     player1.mass = 1;
     player1.inverseMass = 1;
 
     Matter.World.add(world, [ball, floor1, player1]);
-    Matter.Events.on(engine, "collisionStart", (event) => {
-      if (event.pairs.filter((element) => this.bodiesAreColliding(element, "player1", "ball")).length !== 0) {
-        if (this.isGoal) {
+    Matter.Events.on(engine, 'collisionStart', (event) => {
+      if (event.pairs.filter((element) => bodiesAreColliding(element, 'player1', 'ball')).length !== 0) {
+        if (isGoalReached) {
           ball.isNotFixed = true;
           Matter.Body.setVelocity(ball, {
             x: GetAbsolutWidthPosition(1),
@@ -92,18 +167,18 @@ export default class SimpleGame extends PureComponent {
             y: -GetAbsolutWidthPosition(1),
           });
         }
-        this.headerAudio.play();
-        this.gameEngine.dispatch({ type: "score" });
-      } else if (event.pairs.filter((element) => this.bodiesAreColliding(element, "floor", "ball")).length !== 0 && !this.isGoal) {
-        //The ball collided with the floor.
-        this.gameEngine.dispatch({ type: "game-over" });
+        headerAudio.play();
+        gameEngine.current.dispatch({ type: 'score' });
+      } else if (event.pairs.filter((element) => bodiesAreColliding(element, 'floor', 'ball')).length !== 0 && !isGoalReached) {
+      // The ball collided with the floor.
+        gameEngine.current.dispatch({ type: 'game-over' });
       }
     });
-    const enemies = addEnemies(engine, clubOrder[this.clubPointer]);
+    const enemies = addEnemies(engine, clubOrder[clubIndex]);
 
     return {
       ...enemies,
-      physics: { engine: engine, world: world },
+      physics: { engine, world },
       ball: { body: ball, renderer: Ball },
       floor1: { body: floor1, renderer: Floor },
       player1: {
@@ -119,198 +194,112 @@ export default class SimpleGame extends PureComponent {
         stadium,
         city,
         endReached: () => {
-          this.gameEngine.dispatch({ type: "end-reached" });
+          gameEngine.current.dispatch({ type: 'end-reached' });
         },
         goalReached: () => {
-          this.gameEngine.dispatch({ type: "goal-reached" });
+          gameEngine.current.dispatch({ type: 'goal-reached' });
         },
         renderer: Background,
       },
     };
   };
 
-  onEvent = (e) => {
-    if (e.type === "game-over") {
-      //Alert.alert("Game Over");
-      this.clubPointer = 0;
-      this.gameOverAudio.play();
-      this.setState({
-        running: false,
-      });
-    } else if (e.type === "score") {
-      //Alert.alert("Score!");
-      this.setState({
-        score: this.state.score + 1,
-      });
-    } else if (e.type === "goal-reached") {
-      this.isGoal = true;
-    } else if (e.type === "end-reached") {
-      this.endreached = true;
-      this.levelUpAudio.play();
-      this.setState({
-        running: false,
-      });
+  const [entities] = useState(setupWorld);
+
+  const handleContinue = () => {
+    runGame(true);
+    setScore(score + 100);
+    setYear(year + 1);
+    setNumberOfTrophies(numberOfTrophies + 1);
+    setClubIndex(clubIndex + 1);
+
+    if (clubIndex >= clubOrder.length) {
+      setClubIndex(0);
+    }
+
+    gameEngine.current.swap(setupWorld());
+  };
+
+  const handleReset = () => {
+    gameEngine.current.swap(setupWorld());
+
+    runGame(true);
+    setScore(0);
+    setYear(2018);
+    setNumberOfTrophies(0);
+    setClubIndex(0);
+  };
+
+  const handleEvent = (e) => {
+    if (e.type === 'game-over') {
+      // Alert.alert("Game Over");
+      setClubIndex(0);
+      gameOverAudio.play();
+      runGame(false);
+    } else if (e.type === 'score') {
+      // Alert.alert("Score!");
+      setScore(score + 1);
+    } else if (e.type === 'goal-reached') {
+      setGoalReached(true);
+    } else if (e.type === 'end-reached') {
+      setEndReached(true);
+      levelUpAudio.play();
+      runGame(false);
     }
   };
 
-  render() {
-    return (
-      <GameEngine
-        className="game"
-        ref={(ref) => {
-          this.gameEngine = ref;
-        }}
-        running={this.state.running}
-        systems={[Physics]}
-        onEvent={this.onEvent}
-        entities={this.entities}
-      >
-        <div>
-          <div style={styles.year}>{this.state.year}</div>
-          <div style={styles.trophy}>
-            {this.state.trophy}
-            <img src={pokal} alt="field" style={styles.trophyImage}></img>
-          </div>
-
-          <div style={styles.score}>{this.state.score}</div>
-          {!this.state.running && !this.endreached && !this.state.welcome && (
-            <div style={styles.fullScreen}>
-              <GameOver onReset={this.reset} />
-            </div>
-          )}
-          {this.endreached && (
-            <div style={styles.fullScreen}>
-              <LevelUp onContinue={this.continue} />
-            </div>
-          )}
-          {!this.state.running && this.state.welcome && (
-            <div style={styles.fullScreen}>
-              <Welcome
-                onStart={() => {
-                  var elem = document.documentElement;
-                  if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                  } else if (elem.mozRequestFullScreen) {
-                    /* Firefox */
-                    elem.mozRequestFullScreen();
-                  } else if (elem.webkitRequestFullscreen) {
-                    /* Chrome, Safari and Opera */
-                    elem.webkitRequestFullscreen();
-                  } else if (elem.msRequestFullscreen) {
-                    /* IE/Edge */
-                    elem.msRequestFullscreen();
-                  }
-                  console.log("fullscreen");
-                  setTimeout(() => this.setState({ running: true, welcome: false }), 1300);
-                }}
-              />
-            </div>
-          )}
+  return (
+    <GameEngine
+      className="game"
+      ref={gameEngine}
+      running={isGameRunning}
+      systems={[Physics]}
+      onEvent={handleEvent}
+      entities={entities}
+    >
+      <div>
+        <div style={styles.year}>{year}</div>
+        <div style={styles.trophy}>
+          {numberOfTrophies}
+          <img src={pokal} alt="field" style={styles.trophyImage} />
         </div>
-      </GameEngine>
-    );
-  }
-  continue = () => {
-    this.setState({
-      running: true,
-      score: this.state.score + 100,
-      year: this.state.year + 1,
-      trophy: this.state.trophy + 1,
-    });
-    if (++this.clubPointer >= clubOrder.length) {
-      this.clubPointer = 0;
-    }
-    this.gameEngine.swap(this.setupWorld());
-  };
-  reset = () => {
-    this.gameEngine.swap(this.setupWorld());
-    this.setState({
-      running: true,
-      score: 0,
-      year: 2018,
-      trophy: 0,
-    });
-  };
 
-  bodiesAreColliding(pair, nameA, nameB) {
-    return (pair.bodyB.label === nameA && pair.bodyA.label === nameB) || (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
-  }
-}
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  backgroundImage: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: Constants.MAX_WIDTH,
-    height: Constants.MAX_HEIGHT,
-  },
-  gameContainer: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  fullScreen: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "black",
-    opacity: 0.8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  score: {
-    position: "absolute",
-    color: "white",
-    fontSize: 72,
-    top: 30,
-    left: Constants.MAX_WIDTH / 2 - 20,
-    textShadowColor: "#444444",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 2,
-    fontFamily: '"04b_19", "Courier New"',
-  },
-  trophy: {
-    position: "absolute",
-    color: "#FFD700",
-    fontSize: 72,
-    top: 30,
-    left: Constants.MAX_WIDTH - (Constants.MAX_WIDTH / 4 - 20),
-    textShadowColor: "#FFD700",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 2,
-    fontFamily: '"04b_19", "Courier New"',
-  },
-  trophyImage: {
-    height: 80,
-  },
-  year: {
-    position: "absolute",
-    color: "#FFD700",
-    fontSize: 72,
-    top: 30,
-    left: Constants.MAX_WIDTH / 4 - 80,
-    textShadowColor: "#444444",
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 2,
-    fontFamily: '"04b_19", "Courier New"',
-  },
-  fullScreenButton: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flex: 1,
-  },
+        <div style={styles.score}>{score}</div>
+        {!isGameRunning && !isEndReached && !isWelcomeScreenVisible && (
+          <div style={styles.fullScreen}>
+            <GameOver onReset={handleReset} />
+          </div>
+        )}
+        {isEndReached && (
+          <div style={styles.fullScreen}>
+            <LevelUp onContinue={handleContinue} />
+          </div>
+        )}
+        {!isGameRunning && isWelcomeScreenVisible && (
+          <div style={styles.fullScreen}>
+            <Welcome
+              onStart={() => {
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                  elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                  /* Firefox */
+                  elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) {
+                  /* Chrome, Safari and Opera */
+                  elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                  /* IE/Edge */
+                  elem.msRequestFullscreen();
+                }
+                setTimeout(() => { showWelcomeScreen(false); runGame(true); }, 1300);
+              }}
+            />
+          </div>
+        )}
+      </div>
+    </GameEngine>
+  );
 };
+
+export default SimpleGame;
