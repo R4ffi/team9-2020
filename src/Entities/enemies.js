@@ -3,22 +3,7 @@ import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from '..
 import EnemyPlayer from './EnemyPlayer';
 import skinColor from '../Constants/skinColor';
 
-export function addEnemies(engine, club) {
-  const enemies = [newEnemy(GetAbsolutWidthPosition(100))];
-
-  Matter.World.add(engine.world, enemies);
-
-  return {
-    enemy1: {
-      body: enemies[0],
-      renderer: EnemyPlayer,
-      skinColor: skinColor.black,
-      club,
-    },
-  };
-}
-
-function newEnemy(xPosition) {
+const newEnemy = (xPosition) => {
   const body = Matter.Bodies.rectangle(
     xPosition,
     Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
@@ -32,4 +17,21 @@ function newEnemy(xPosition) {
   body.mass = 10;
   body.inverseMass = 1 / 10;
   return body;
-}
+};
+
+const addEnemies = (engine, club) => {
+  const enemies = [newEnemy(GetAbsolutWidthPosition(100))];
+
+  Matter.World.add(engine.world, enemies);
+
+  return {
+    enemy1: {
+      body: enemies[0],
+      renderer: EnemyPlayer,
+      skinColor: skinColor.black,
+      club,
+    },
+  };
+};
+
+export default addEnemies;
