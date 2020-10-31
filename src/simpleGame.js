@@ -1,9 +1,6 @@
 import Background from "./Entities/background";
 import Ball from "./Entities/ball";
-import Constants, {
-  GetAbsolutHeightPosition,
-  GetAbsolutWidthPosition,
-} from "./Constants";
+import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "./Constants";
 import Floor from "./Entities/floor";
 import Matter from "matter-js";
 import Physics from "./Physics/Physics";
@@ -52,11 +49,7 @@ export default class SimpleGame extends PureComponent {
     let engine = Matter.Engine.create();
     let world = engine.world;
     world.gravity.y = Constants.GRAVITY;
-    let ball = Matter.Bodies.circle(
-      Constants.MAX_WIDTH / 2,
-      0,
-      GetAbsolutHeightPosition(3)
-    );
+    let ball = Matter.Bodies.circle(Constants.MAX_WIDTH / 2, 0, GetAbsolutHeightPosition(3));
     const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
     const city = Matter.Bodies.rectangle(0, 0, 0, 0);
 
@@ -86,11 +79,7 @@ export default class SimpleGame extends PureComponent {
 
     Matter.World.add(world, [ball, floor1, player1]);
     Matter.Events.on(engine, "collisionStart", (event) => {
-      if (
-        event.pairs.filter((element) =>
-          this.bodiesAreColliding(element, "player1", "ball")
-        ).length !== 0
-      ) {
+      if (event.pairs.filter((element) => this.bodiesAreColliding(element, "player1", "ball")).length !== 0) {
         if (this.isGoal) {
           ball.isNotFixed = true;
           Matter.Body.setVelocity(ball, {
@@ -105,12 +94,7 @@ export default class SimpleGame extends PureComponent {
         }
         this.headerAudio.play();
         this.gameEngine.dispatch({ type: "score" });
-      } else if (
-        event.pairs.filter((element) =>
-          this.bodiesAreColliding(element, "floor", "ball")
-        ).length !== 0 &&
-        !this.isGoal
-      ) {
+      } else if (event.pairs.filter((element) => this.bodiesAreColliding(element, "floor", "ball")).length !== 0 && !this.isGoal) {
         //The ball collided with the floor.
         this.gameEngine.dispatch({ type: "game-over" });
       }
@@ -201,21 +185,25 @@ export default class SimpleGame extends PureComponent {
           )}
           {!this.state.running && this.state.welcome && (
             <div style={styles.fullScreen}>
-              <Welcome start={() => {
-              var elem = document.documentElement;
-              if (elem.requestFullscreen) {
-                  elem.requestFullscreen();
-              } else if (elem.mozRequestFullScreen) { /* Firefox */
-                  elem.mozRequestFullScreen();
-              } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                  elem.webkitRequestFullscreen();
-              } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                  elem.msRequestFullscreen();
-              }
-              console.log("fullscreen");
-              setTimeout(() => this.setState({running: true, welcome: false}), 1300);
-            }
-              } />
+              <Welcome
+                start={() => {
+                  var elem = document.documentElement;
+                  if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                  } else if (elem.mozRequestFullScreen) {
+                    /* Firefox */
+                    elem.mozRequestFullScreen();
+                  } else if (elem.webkitRequestFullscreen) {
+                    /* Chrome, Safari and Opera */
+                    elem.webkitRequestFullscreen();
+                  } else if (elem.msRequestFullscreen) {
+                    /* IE/Edge */
+                    elem.msRequestFullscreen();
+                  }
+                  console.log("fullscreen");
+                  setTimeout(() => this.setState({ running: true, welcome: false }), 1300);
+                }}
+              />
             </div>
           )}
         </div>
@@ -245,10 +233,7 @@ export default class SimpleGame extends PureComponent {
   };
 
   bodiesAreColliding(pair, nameA, nameB) {
-    return (
-      (pair.bodyB.label === nameA && pair.bodyA.label === nameB) ||
-      (pair.bodyB.label === nameB && pair.bodyA.label === nameA)
-    );
+    return (pair.bodyB.label === nameA && pair.bodyA.label === nameB) || (pair.bodyB.label === nameB && pair.bodyA.label === nameA);
   }
 }
 

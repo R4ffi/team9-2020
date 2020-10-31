@@ -5,7 +5,7 @@ import Matter from "matter-js";
 import { skinColor } from "../Constants/skinColor";
 
 export default class EnemyPlayer extends Component {
-  constructor(){
+  constructor() {
     super();
     this.skinColor = skinColor;
     this.currentSkinColor = this.skinColor.randomSkinColor();
@@ -15,14 +15,14 @@ export default class EnemyPlayer extends Component {
     const sizeX = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
     const { club } = this.props;
     const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
-    
+
     let x = this.props.body.position.x - Constants.SPEED;
     if (x <= 0) {
       this.currentSkinColor = this.skinColor.randomSkinColor();
       x = Constants.MAX_WIDTH;
     }
     if (x > Constants.MAX_WIDTH) {
-      x = Constants.MAX_WIDTH ;
+      x = Constants.MAX_WIDTH;
     }
     let skinColor = this.currentSkinColor;
 

@@ -1,7 +1,4 @@
-import Constants, {
-  GetAbsolutHeightPosition,
-  GetAbsolutWidthPosition,
-} from "../Constants";
+import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "../Constants";
 import EnemyPlayer from "../Entities/enemyPlayer";
 import Matter from "matter-js";
 import { skinColor } from "../Constants/skinColor";

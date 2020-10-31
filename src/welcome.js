@@ -70,11 +70,7 @@ const Welcome = (props) => {
           />
         </g>
       </svg>
-      <button
-        className="btn btn-outline-secondary"
-        onClick={props.start}
-        style={styles.button}
-      >
+      <button className="btn btn-outline-secondary" onClick={props.start} style={styles.button}>
         Spiu starte
       </button>
     </div>
