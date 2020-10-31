@@ -7,7 +7,7 @@ import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
 import YbPlayer from "./Entities/YbPlayer";
 import { GameEngine } from "react-game-engine";
-import { addEnemies } from "./Entities/enemies";
+import  addEnemies  from "./Entities/enemies";
 import club from "./Constants/club";
 import  skinColor  from "./Constants/skinColor";
 import levelUpSound from "./Assets/Sounds/levelup.mp3";
@@ -175,12 +175,12 @@ export default class SimpleGame extends PureComponent {
           <div style={styles.score}>{this.state.score}</div>
           {!this.state.running && !this.endreached && !this.state.welcome && (
             <div style={styles.fullScreen}>
-              <GameOver reset={this.reset} />
+              <GameOver onReset={this.reset} />
             </div>
           )}
           {this.endreached && (
             <div style={styles.fullScreen}>
-              <LevelUp continue={this.continue} />
+              <LevelUp onContinue={this.continue} />
             </div>
           )}
           {!this.state.running && this.state.welcome && (

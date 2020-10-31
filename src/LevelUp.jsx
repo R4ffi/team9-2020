@@ -1,7 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from './Constants';
 
+const styles = {
+  button: {
+    fontSize: GetAbsolutHeightPosition(3),
+    width: '100%',
+    fontFamily: '"04b_19", "Courier New"',
+  },
+};
+
 const LevelUp = (props) => {
+  const { onContinue } = props;
   const width = GetAbsolutWidthPosition(30);
   const x = GetAbsolutWidthPosition(50) - width / 2;
 
@@ -20,19 +30,15 @@ const LevelUp = (props) => {
           <path d="m255 79.226-23.264 47.136-52.02 7.559 37.643 36.691-8.886 51.809 46.527-24.461 46.526 24.46-8.886-51.809 37.643-36.691-52.02-7.559zm6.683 88.354-6.683-3.514-6.683 3.513 1.276-7.441-5.406-5.27 7.471-1.086 3.342-6.771 3.342 6.771 7.471 1.086-5.406 5.27z" />
         </g>
       </svg>
-      <button className="btn btn-outline-secondary" onClick={props.continue} style={styles.button}>
+      <button className="btn btn-outline-secondary" type="button" onClick={onContinue} style={styles.button}>
         Nächschti Seso spilä
       </button>
     </div>
   );
 };
 
-const styles = {
-  button: {
-    fontSize: GetAbsolutHeightPosition(3),
-    width: '100%',
-    fontFamily: '"04b_19", "Courier New"',
-  },
+LevelUp.propTypes = {
+  onContinue: PropTypes.func.isRequired,
 };
 
 export default LevelUp;
