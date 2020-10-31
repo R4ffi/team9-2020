@@ -1,11 +1,11 @@
-import Background from "./Entities/background";
-import Ball from "./Entities/ball";
+import Background from "./Entities/Background";
+import Ball from "./Entities/Ball";
 import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from "./Constants";
-import Floor from "./Entities/floor";
+import Floor from "./Entities/Floor";
 import Matter from "matter-js";
 import Physics from "./Physics/Physics";
 import React, { PureComponent } from "react";
-import YbPlayer from "./Entities/ybPlayer";
+import YbPlayer from "./Entities/YbPlayer";
 import { GameEngine } from "react-game-engine";
 import { addEnemies } from "./Entities/enemies";
 import { club } from "./Constants/club";
@@ -14,9 +14,9 @@ import levelUpSound from "./Assets/Sounds/levelup.mp3";
 import gameOverSound from "./Assets/Sounds/gameOver.mp3";
 import headerSound from "./Assets/Sounds/header.mp3";
 import pokal from "./Assets/Images/Pokal.jpg";
-import GameOver from "./gameOver";
-import LevelUp from "./levelUp";
-import Welcome from "./welcome";
+import GameOver from "./GameOver";
+import LevelUp from "./LevelUp";
+import Welcome from "./Welcome";
 
 const clubOrder = [club.luzern, club.basel, club.stGallen];
 

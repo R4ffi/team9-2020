@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import SimpleGame from './simpleGame';
+import SimpleGame from './SimpleGame';
 
 ReactDOM.render(<SimpleGame />, document.getElementById('root'));
 
