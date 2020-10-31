@@ -5,7 +5,9 @@ import stadiumImageSource from '../Assets/Images/stadium.png';
 import Constants from '../Constants';
 import cityImageSource from '../Assets/Images/city.png';
 
-const Background = ({ city, stadium }) => {
+const Background = ({
+  city, stadium, goalReached, endReached,
+}) => {
   const stadiumImage = useRef(null);
   const cityImage = useRef(null);
 
@@ -14,13 +16,13 @@ const Background = ({ city, stadium }) => {
 
   if (stadiumImage.current && stadiumImage.current.width > 0
     && stadiumX - Constants.MAX_WIDTH * 2 < -stadiumImage.current.width) {
-    props.goalReached();
+    goalReached();
   }
 
   if (stadiumImage.current && stadiumImage.current.width > 0
     && stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width) {
     // stadiumX = 0;
-    props.endReached();
+    endReached();
   }
 
   if (cityImage.current && cityX - Constants.MAX_WIDTH < -cityImage.current.width) {
