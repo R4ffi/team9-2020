@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import Constants from "../Constants";
-import Matter from "matter-js";
-import { clubColor } from "../Constants/clubColor";
+import React, { Component } from 'react';
+import Matter from 'matter-js';
+import Constants from '../Constants';
+import { clubColor } from '../Constants/clubColor';
 
 export default class YbPlayer extends Component {
   render() {
@@ -20,13 +20,13 @@ export default class YbPlayer extends Component {
 
     const y = this.props.body.position.y - sizeY / 2;
     Matter.Body.setPosition(this.props.body, {
-      x: x,
+      x,
       y: this.props.body.position.y,
     });
     return (
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           width: sizeX,
           height: sizeY,
           left: x - sizeX / 2,

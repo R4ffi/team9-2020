@@ -1,5 +1,5 @@
-import React from "react";
-import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from "./Constants";
+import React from 'react';
+import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from './Constants';
 
 const LevelUp = (props) => {
   const width = GetAbsolutWidthPosition(30);
@@ -8,8 +8,8 @@ const LevelUp = (props) => {
   return (
     <div
       style={{
-        position: "absolute",
-        width: width,
+        position: 'absolute',
+        width,
         left: x,
         top: 0,
       }}
@@ -30,7 +30,7 @@ const LevelUp = (props) => {
 const styles = {
   button: {
     fontSize: GetAbsolutHeightPosition(3),
-    width: "100%",
+    width: '100%',
     fontFamily: '"04b_19", "Courier New"',
   },
 };

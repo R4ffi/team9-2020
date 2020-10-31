@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { clubColor } from "../Constants/clubColor";
-import Constants from "../Constants";
-import Matter from "matter-js";
-import { skinColor } from "../Constants/skinColor";
+import React, { Component } from 'react';
+import Matter from 'matter-js';
+import { clubColor } from '../Constants/clubColor';
+import Constants from '../Constants';
+import { skinColor } from '../Constants/skinColor';
 
 export default class EnemyPlayer extends Component {
   constructor() {
@@ -10,6 +10,7 @@ export default class EnemyPlayer extends Component {
     this.skinColor = skinColor;
     this.currentSkinColor = this.skinColor.randomSkinColor();
   }
+
   render() {
     const sizeY = this.props.body.bounds.max.y - this.props.body.bounds.min.y;
     const sizeX = this.props.body.bounds.max.x - this.props.body.bounds.min.x;
@@ -24,17 +25,17 @@ export default class EnemyPlayer extends Component {
     if (x > Constants.MAX_WIDTH) {
       x = Constants.MAX_WIDTH;
     }
-    let skinColor = this.currentSkinColor;
+    const skinColor = this.currentSkinColor;
 
     const y = this.props.body.position.y - sizeY / 2;
     Matter.Body.setPosition(this.props.body, {
-      x: x,
+      x,
       y: this.props.body.position.y,
     });
     return (
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           width: sizeX,
           height: sizeY,
           left: x - sizeX / 2,

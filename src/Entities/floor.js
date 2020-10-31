@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 export default class Floor extends Component {
   render() {
@@ -10,9 +10,9 @@ export default class Floor extends Component {
     return (
       <div
         style={{
-          position: "absolute",
-          width: width,
-          height: height,
+          position: 'absolute',
+          width,
+          height,
           left: x,
           top: y,
         }}
