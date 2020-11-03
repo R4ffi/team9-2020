@@ -30,5 +30,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Deployment to Azure
 ![Azure Static Web Apps CI/CD](https://github.com/R4ffi/team9-2020/workflows/Azure%20Static%20Web%20Apps%20CI/CD/badge.svg)
+
 Each commit is automatically deployed to an Azure Static Web App.
+
 https://white-cliff-00b548203.azurestaticapps.net/
