@@ -93,7 +93,6 @@ const Game = () => {
   const gameEngine = useRef(null);
 
   const [enemySource] = useState(new EnemySource());
-  const [isGoalReached, setGoalReached] = useState(false);
   const [isLevelCompleted, setLevelCompleted] = useState(false);
   const [isWelcomeScreenVisible, showWelcomeScreen] = useState(true);
   const [isGameRunning, runGame] = useState(false);
@@ -103,14 +102,14 @@ const Game = () => {
   const [entities, setEntities] = useState(null);
 
   if (!entities) {
-    setEntities(setupWorld(gameEngine, isGoalReached, enemySource.getNextEnemy()));
+    setEntities(setupWorld(gameEngine, enemySource.getNextEnemy()));
   }
 
   const levelUpAudio = new Audio(levelUpSound);
   const gameOverAudio = new Audio(gameOverSound);
 
   const handleContinue = () => {
-    gameEngine.current.swap(setupWorld(gameEngine, isGoalReached, enemySource.getNextEnemy()));
+    gameEngine.current.swap(setupWorld(gameEngine, enemySource.getNextEnemy()));
 
     runGame(true);
     setScore(score + 100);
@@ -125,20 +124,16 @@ const Game = () => {
     setYear(2018);
     setNumberOfTrophies(0);
 
-    gameEngine.current.swap(setupWorld(gameEngine, isGoalReached, enemySource.getNextEnemy()));
+    gameEngine.current.swap(setupWorld(gameEngine, enemySource.getNextEnemy()));
   };
 
   const handleEvent = (e) => {
     if (e.type === 'game-over') {
-      // Alert.alert("Game Over");
       enemySource.reset();
       gameOverAudio.play();
       runGame(false);
     } else if (e.type === 'score') {
-      // Alert.alert("Score!");
       setScore(score + 1);
-    } else if (e.type === 'goal-reached') {
-      setGoalReached(true);
     } else if (e.type === 'end-reached') {
       setLevelCompleted(true);
       levelUpAudio.play();

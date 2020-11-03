@@ -17,7 +17,7 @@ const bodiesAreColliding = (pair, nameA, nameB) => {
   return isAColidingWithB || isBColidingWithA;
 };
 
-const setupWorld = (gameEngine, isGoalReached, enemy) => {
+const setupWorld = (gameEngine, enemy) => {
   const engine = Matter.Engine.create();
   const { world } = engine;
   world.gravity.y = Constants.GRAVITY;
@@ -51,9 +51,10 @@ const setupWorld = (gameEngine, isGoalReached, enemy) => {
 
   Matter.World.add(world, [ball, floor1, player1]);
   Matter.Events.on(engine, 'collisionStart', (event) => {
+    const isGoalReached = ball.isNotFixed;
+
     if (event.pairs.filter((element) => bodiesAreColliding(element, 'player1', 'ball')).length !== 0) {
       if (isGoalReached) {
-        ball.isNotFixed = true;
         Matter.Body.setVelocity(ball, {
           x: GetAbsolutWidthPosition(1),
           y: ball.velocity.y,
@@ -94,7 +95,9 @@ const setupWorld = (gameEngine, isGoalReached, enemy) => {
         gameEngine.current.dispatch({ type: 'end-reached' });
       },
       goalReached: () => {
-        gameEngine.current.dispatch({ type: 'goal-reached' });
+        if (ball.isNotFixed === false) {
+          ball.isNotFixed = true;
+        }
       },
       renderer: Background,
     },
