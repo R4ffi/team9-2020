@@ -1,11 +1,11 @@
 import Matter from 'matter-js';
 import Background from './Entities/Background';
 import Ball from './Entities/Ball';
-import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from './Constants';
 import Floor from './Entities/Floor';
 import YbPlayer from './Entities/YbPlayer';
-import addEnemies from './Entities/enemies';
+import addEnemies from './addEnemies';
 import club from './Constants/club';
+import gameWorld, { getAbsolutHeightPosition, getAbsolutWidthPosition } from './Constants/gameWorld';
 import headerSound from './Assets/Sounds/header.mp3';
 import skinColor from './Constants/skinColor';
 
@@ -20,8 +20,8 @@ const bodiesAreColliding = (pair, nameA, nameB) => {
 const setupWorld = (gameEngine, enemy) => {
   const engine = Matter.Engine.create();
   const { world } = engine;
-  world.gravity.y = Constants.GRAVITY;
-  const ball = Matter.Bodies.circle(Constants.MAX_WIDTH / 2, 0, GetAbsolutHeightPosition(3));
+  world.gravity.y = gameWorld.GRAVITY;
+  const ball = Matter.Bodies.circle(gameWorld.MAX_WIDTH / 2, 0, getAbsolutHeightPosition(3));
   const stadium = Matter.Bodies.rectangle(0, 0, 0, 0);
   const city = Matter.Bodies.rectangle(0, 0, 0, 0);
 
@@ -29,18 +29,18 @@ const setupWorld = (gameEngine, enemy) => {
   ball.isNotFixed = false;
 
   const floor1 = Matter.Bodies.rectangle(
-    Constants.MAX_WIDTH / 2,
-    Constants.MAX_HEIGHT - GetAbsolutHeightPosition(10),
-    Constants.MAX_WIDTH + 4,
-    GetAbsolutHeightPosition(10),
+    gameWorld.MAX_WIDTH / 2,
+    gameWorld.MAX_HEIGHT - getAbsolutHeightPosition(10),
+    gameWorld.MAX_WIDTH + 4,
+    getAbsolutHeightPosition(10),
     { isStatic: true },
   );
   floor1.label = 'floor';
   const player1 = Matter.Bodies.rectangle(
-    Constants.MAX_WIDTH / 2,
-    Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
-    GetAbsolutWidthPosition(10),
-    GetAbsolutHeightPosition(20),
+    gameWorld.MAX_WIDTH / 2,
+    gameWorld.MAX_HEIGHT - getAbsolutHeightPosition(20),
+    getAbsolutWidthPosition(10),
+    getAbsolutHeightPosition(20),
     {
       inertia: Infinity,
     },
@@ -56,13 +56,13 @@ const setupWorld = (gameEngine, enemy) => {
     if (event.pairs.filter((element) => bodiesAreColliding(element, 'player1', 'ball')).length !== 0) {
       if (isGoalReached) {
         Matter.Body.setVelocity(ball, {
-          x: GetAbsolutWidthPosition(1),
+          x: getAbsolutWidthPosition(1),
           y: ball.velocity.y,
         });
       } else {
         Matter.Body.setVelocity(ball, {
           x: ball.velocity.x,
-          y: -GetAbsolutWidthPosition(1),
+          y: -getAbsolutWidthPosition(1),
         });
       }
       headerAudio.play();

@@ -1,20 +1,20 @@
-import React from 'react';
 import Matter from 'matter-js';
 import PropTypes from 'prop-types';
-import Constants from '../Constants';
+import React from 'react';
 import clubColor from '../Constants/clubColor';
+import gameWorld from '../Constants/gameWorld';
 
 const YbPlayer = ({ body, club, skinColor }) => {
   const sizeY = body.bounds.max.y - body.bounds.min.y;
   const sizeX = body.bounds.max.x - body.bounds.min.x;
   const { primaryColor, pantsColor } = clubColor[club];
 
-  let x = body.position.x - Constants.SPEED;
+  let x = body.position.x - gameWorld.SPEED;
   if (x <= 0) {
-    x = Constants.MAX_WIDTH;
+    x = gameWorld.MAX_WIDTH;
   }
-  if (x >= Constants.MAX_WIDTH - sizeX / 2) {
-    x = Constants.MAX_WIDTH - sizeX / 2;
+  if (x >= gameWorld.MAX_WIDTH - sizeX / 2) {
+    x = gameWorld.MAX_WIDTH - sizeX / 2;
   }
 
   const y = body.position.y - sizeY / 2;

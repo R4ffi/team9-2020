@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from './Constants';
+import { getAbsolutWidthPosition, getAbsolutHeightPosition } from './Constants/gameWorld';
 
 const styles = {
   button: {
-    fontSize: GetAbsolutHeightPosition(3),
+    fontSize: getAbsolutHeightPosition(3),
     width: '100%',
     fontFamily: '"04b_19", "Courier New"',
   },
 };
 
 const Welcome = ({ onStart }) => {
-  const width = GetAbsolutWidthPosition(30);
-  const x = GetAbsolutWidthPosition(50) - width / 2;
+  const width = getAbsolutWidthPosition(30);
+  const x = getAbsolutWidthPosition(50) - width / 2;
 
   return (
     <div

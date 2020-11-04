@@ -1,4 +1,4 @@
-const Constants = {
+const gameWorld = {
   MAX_WIDTH: window.screen.width,
   MAX_HEIGHT: window.screen.height,
   SPEED: window.screen.width * 0.005,
@@ -7,12 +7,12 @@ const Constants = {
   GRAVITY: window.screen.width * 0.0005,
 };
 
-export function GetAbsolutWidthPosition(numberInPercent) {
+export function getAbsolutWidthPosition(numberInPercent) {
   return (window.screen.width / 100) * numberInPercent;
 }
 
-export function GetAbsolutHeightPosition(numberInPercent) {
+export function getAbsolutHeightPosition(numberInPercent) {
   return (window.screen.height / 100) * numberInPercent;
 }
 
-export default Constants;
+export default gameWorld;

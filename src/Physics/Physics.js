@@ -1,5 +1,5 @@
 import Matter from 'matter-js';
-import Constants from '../Constants';
+import gameWorld from '../Constants/gameWorld';
 
 const Physics = (entities, { time, input }) => {
   // Handle User Input
@@ -8,9 +8,9 @@ const Physics = (entities, { time, input }) => {
     // If it is a keydown event we only accept arrow left or arrow right.
     if (payload.type !== 'keydown' || payload.key === 'ArrowLeft' || payload.key === 'ArrowRight') {
       const player = entities.player1;
-      let movment = Constants.SPEED * 3;
+      let movment = gameWorld.SPEED * 3;
       // Move player to the left, if hit on the left side
-      if (payload.pageX < Constants.MAX_WIDTH / 2 || payload.key === 'ArrowLeft') {
+      if (payload.pageX < gameWorld.MAX_WIDTH / 2 || payload.key === 'ArrowLeft') {
         movment *= -1;
       }
 

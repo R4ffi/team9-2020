@@ -1,13 +1,13 @@
-import React from 'react';
 import Matter from 'matter-js';
 import PropTypes from 'prop-types';
+import React from 'react';
+import gameWorld from '../Constants/gameWorld';
 import soccerBall from '../Assets/Images/soccer-ball.svg';
-import Constants from '../Constants';
 
 const Ball = ({ body }) => {
   const width = body.bounds.max.x - body.bounds.min.x;
   const height = body.bounds.max.y - body.bounds.min.y;
-  let x = Constants.MAX_WIDTH / 2;
+  let x = gameWorld.MAX_WIDTH / 2;
   if (body.isNotFixed) {
     x = body.position.x;
   }

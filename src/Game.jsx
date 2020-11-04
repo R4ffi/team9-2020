@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { GameEngine } from 'react-game-engine';
-import Constants from './Constants';
 import EnemySource from './EnemySource';
 import GameOver from './GameOver';
 import LevelUp from './LevelUp';
 import Physics from './Physics/Physics';
 import Welcome from './Welcome';
 import gameOverSound from './Assets/Sounds/gameOver.mp3';
+import gameWorld from './Constants/gameWorld';
 import levelUpSound from './Assets/Sounds/levelup.mp3';
 import pokal from './Assets/Images/Pokal.jpg';
 import setupWorld from './setupWorld';
@@ -22,8 +22,8 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    width: Constants.MAX_WIDTH,
-    height: Constants.MAX_HEIGHT,
+    width: gameWorld.MAX_WIDTH,
+    height: gameWorld.MAX_HEIGHT,
   },
   gameContainer: {
     position: 'absolute',
@@ -48,7 +48,7 @@ const styles = {
     color: 'white',
     fontSize: 72,
     top: 30,
-    left: Constants.MAX_WIDTH / 2 - 20,
+    left: gameWorld.MAX_WIDTH / 2 - 20,
     textShadowColor: '#444444',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
@@ -59,7 +59,7 @@ const styles = {
     color: '#FFD700',
     fontSize: 72,
     top: 30,
-    left: Constants.MAX_WIDTH - (Constants.MAX_WIDTH / 4 - 20),
+    left: gameWorld.MAX_WIDTH - (gameWorld.MAX_WIDTH / 4 - 20),
     textShadowColor: '#FFD700',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
@@ -73,7 +73,7 @@ const styles = {
     color: '#FFD700',
     fontSize: 72,
     top: 30,
-    left: Constants.MAX_WIDTH / 4 - 80,
+    left: gameWorld.MAX_WIDTH / 4 - 80,
     textShadowColor: '#444444',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,

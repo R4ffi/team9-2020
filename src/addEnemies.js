@@ -1,14 +1,14 @@
 import Matter from 'matter-js';
-import Constants, { GetAbsolutHeightPosition, GetAbsolutWidthPosition } from '../Constants';
-import EnemyPlayer from './EnemyPlayer';
-import skinColor from '../Constants/skinColor';
+import EnemyPlayer from './Entities/EnemyPlayer';
+import gameWorld, { getAbsolutHeightPosition, getAbsolutWidthPosition } from './Constants/gameWorld';
+import skinColor from './Constants/skinColor';
 
 const newEnemy = (xPosition) => {
   const body = Matter.Bodies.rectangle(
     xPosition,
-    Constants.MAX_HEIGHT - GetAbsolutHeightPosition(20),
-    GetAbsolutWidthPosition(10),
-    GetAbsolutHeightPosition(20),
+    gameWorld.MAX_HEIGHT - getAbsolutHeightPosition(20),
+    getAbsolutWidthPosition(10),
+    getAbsolutHeightPosition(20),
     {
       inertia: Infinity,
     },
@@ -20,7 +20,7 @@ const newEnemy = (xPosition) => {
 };
 
 const addEnemies = (engine, club) => {
-  const enemies = [newEnemy(GetAbsolutWidthPosition(100))];
+  const enemies = [newEnemy(getAbsolutWidthPosition(100))];
 
   Matter.World.add(engine.world, enemies);
 

@@ -1,18 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from './Constants';
+import React from 'react';
+import { getAbsolutWidthPosition, getAbsolutHeightPosition } from './Constants/gameWorld';
 
 const styles = {
   button: {
-    fontSize: GetAbsolutHeightPosition(3),
+    fontSize: getAbsolutHeightPosition(3),
     width: '100%',
     fontFamily: '"04b_19", "Courier New"',
   },
 };
 
 const GameOver = ({ onReset }) => {
-  const width = GetAbsolutWidthPosition(30);
-  const x = GetAbsolutWidthPosition(50) - width / 2;
+  const width = getAbsolutWidthPosition(30);
+  const x = getAbsolutWidthPosition(50) - width / 2;
 
   const sponsor = Math.floor(Math.random() * 10) + 1;
 
@@ -45,7 +45,7 @@ const GameOver = ({ onReset }) => {
       <img
         src={`https://fyberstore.blob.core.windows.net/sponsors/${sponsor}.png`}
         alt="Sponsor Logo"
-        style={{ marginTop: GetAbsolutWidthPosition(3) }}
+        style={{ marginTop: getAbsolutWidthPosition(3) }}
       />
     </div>
   );

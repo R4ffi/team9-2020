@@ -1,9 +1,9 @@
 import Matter from 'matter-js';
-import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import stadiumImageSource from '../Assets/Images/stadium.png';
-import Constants from '../Constants';
+import React, { useRef } from 'react';
 import cityImageSource from '../Assets/Images/city.png';
+import gameWorld from '../Constants/gameWorld';
+import stadiumImageSource from '../Assets/Images/stadium.png';
 
 const Background = ({
   city, stadium, goalReached, endReached,
@@ -11,21 +11,21 @@ const Background = ({
   const stadiumImage = useRef(null);
   const cityImage = useRef(null);
 
-  let cityX = city.position.x - Constants.SPEED_CITY;
-  const stadiumX = stadium.position.x - Constants.SPEED_STADIUM;
+  let cityX = city.position.x - gameWorld.SPEED_CITY;
+  const stadiumX = stadium.position.x - gameWorld.SPEED_STADIUM;
 
   if (stadiumImage.current && stadiumImage.current.width > 0
-    && stadiumX - Constants.MAX_WIDTH * 2 < -stadiumImage.current.width) {
+    && stadiumX - gameWorld.MAX_WIDTH * 2 < -stadiumImage.current.width) {
     goalReached();
   }
 
   if (stadiumImage.current && stadiumImage.current.width > 0
-    && stadiumX - Constants.MAX_WIDTH < -stadiumImage.current.width) {
+    && stadiumX - gameWorld.MAX_WIDTH < -stadiumImage.current.width) {
     // stadiumX = 0;
     endReached();
   }
 
-  if (cityImage.current && cityX - Constants.MAX_WIDTH < -cityImage.current.width) {
+  if (cityImage.current && cityX - gameWorld.MAX_WIDTH < -cityImage.current.width) {
     cityX = 0;
   }
   Matter.Body.setPosition(stadium, {

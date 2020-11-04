@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import Matter from 'matter-js';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import clubColor from '../Constants/clubColor';
-import Constants from '../Constants';
-import skinColor from '../Constants/skinColor';
 import clubName from '../Constants/club';
+import gameWorld from '../Constants/gameWorld';
+import skinColor from '../Constants/skinColor';
 
 const EnemyPlayer = ({ body, club }) => {
   const [currentSkinColor, setCurrentSkinColor] = useState(skinColor.randomSkinColor());
@@ -13,13 +13,13 @@ const EnemyPlayer = ({ body, club }) => {
   const sizeX = body.bounds.max.x - body.bounds.min.x;
   const { primaryColor, secondaryColor, pantsColor } = clubColor[club];
 
-  let x = body.position.x - Constants.SPEED;
+  let x = body.position.x - gameWorld.SPEED;
   if (x <= 0) {
     setCurrentSkinColor(skinColor.randomSkinColor());
-    x = Constants.MAX_WIDTH;
+    x = gameWorld.MAX_WIDTH;
   }
-  if (x > Constants.MAX_WIDTH) {
-    x = Constants.MAX_WIDTH;
+  if (x > gameWorld.MAX_WIDTH) {
+    x = gameWorld.MAX_WIDTH;
   }
 
   const y = body.position.y - sizeY / 2;
