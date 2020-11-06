@@ -14,16 +14,13 @@ const styles = {
     width: getAbsolutWidthPosition(100),
     height: getAbsolutHeightPosition(90),
     margin: '0 auto',
-    borderStyle: 'solid',
-    backgrundColor: 'red',
-    padding: getAbsolutHeightPosition(10),
   },
   logo: {
     margin: 'auto',
     position: 'relative',
     top: '0%',
     width: '100%',
-    height: '90%',
+    height: '80%',
   },
   buttonContainer: {
     margin: 'auto',
