@@ -1,15 +1,13 @@
 import React from "react";
-import { GetAbsolutWidthPosition, GetAbsolutHeightPosition } from "./Constants";
 
 const Welcome = (props) => {
-  const width = GetAbsolutWidthPosition(100);
-  const height = GetAbsolutHeightPosition(100)
-
   return (
     <div
     >
-        <h1>Screen Width: {width}</h1>
-        <h1>Screen Height: {height}</h1>
+        <h1>window.screen.width: {window.screen.width}</h1>
+        <h1>window.screen.height: {window.screen.height}</h1>
+        <h1>window.innerWidth: {window.innerWidth}</h1>
+        <h1>window.innerHeight: {window.innerHeight}</h1>
     </div>
   );
 };
