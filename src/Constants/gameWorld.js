@@ -1,5 +1,9 @@
-const screenWidth = window.screen.width > window.screen.height ? window.screen.width : window.screen.height;
-const screenHeight = window.screen.width > window.screen.height ? window.screen.height : window.screen.width;
+const screenWidth = window.screen.width > window.screen.height 
+  ? window.screen.width 
+  : window.screen.height;
+const screenHeight = window.screen.width > window.screen.height 
+  ? window.screen.height 
+  : window.screen.width;
 
 const gameWorld = {
   MAX_WIDTH: screenWidth,
