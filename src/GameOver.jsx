@@ -14,8 +14,6 @@ const GameOver = ({ onReset }) => {
   const width = getAbsolutWidthPosition(30);
   const x = getAbsolutWidthPosition(50) - width / 2;
 
-  const sponsor = Math.floor(Math.random() * 10) + 1;
-
   return (
     <div
       style={{
@@ -42,11 +40,6 @@ const GameOver = ({ onReset }) => {
       <button className="btn btn-outline-secondary" type="button" onClick={onReset} style={styles.button}>
         Probier nomau
       </button>
-      <img
-        src={`https://fyberstore.blob.core.windows.net/sponsors/${sponsor}.png`}
-        alt="Sponsor Logo"
-        style={{ marginTop: getAbsolutWidthPosition(3) }}
-      />
     </div>
   );
 };
