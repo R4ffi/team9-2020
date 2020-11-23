@@ -30,21 +30,44 @@ const styles = {
   },
 };
 
-const ButtonScreen = ({ buttonText, imageSource, onClick }) => (
-  <div style={styles.wrapper}>
-    <img src={imageSource} alt={buttonText} style={styles.logo} />
-    <div style={styles.buttonContainer}>
-      <button type="button" onClick={onClick} style={styles.button}>
-        {buttonText}
+const ButtonScreen = ({
+  imageSource, textButton1, onClickButton1, textButton2, onClickButton2,
+}) => {
+  const isButton2Visible = !!onClickButton2;
+  const width = isButton2Visible ? '50%' : styles.button.width;
+  const buttonStyle = { ...styles.button, ...{ width } };
+  const button2 = isButton2Visible
+    ? (
+      <button type="button" onClick={onClickButton2} style={buttonStyle}>
+        {textButton2}
       </button>
+    )
+    : <></>;
+
+  return (
+    <div style={styles.wrapper}>
+      <img src={imageSource} alt={textButton1} style={styles.logo} />
+      <div style={styles.buttonContainer}>
+        <button type="button" onClick={onClickButton1} style={buttonStyle}>
+          {textButton1}
+        </button>
+        {button2}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 ButtonScreen.propTypes = {
-  onClick: PropTypes.func.isRequired,
   imageSource: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
+  textButton1: PropTypes.string.isRequired,
+  onClickButton1: PropTypes.func.isRequired,
+  textButton2: PropTypes.string,
+  onClickButton2: PropTypes.func,
+};
+
+ButtonScreen.defaultProps = {
+  textButton2: undefined,
+  onClickButton2: undefined,
 };
 
 export default ButtonScreen;

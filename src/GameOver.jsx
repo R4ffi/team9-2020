@@ -5,9 +5,9 @@ import gameOverImage from './Assets/Images/game-over.svg';
 
 const GameOver = ({ onReset }) => (
   <ButtonScreen
-    buttonText="Neuer Versuch"
     imageSource={gameOverImage}
-    onClick={onReset}
+    textButton1="Neuer Versuch"
+    onClickButton1={onReset}
   />
 );
 

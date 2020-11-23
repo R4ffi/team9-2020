@@ -5,9 +5,9 @@ import welcomeImage from './Assets/Images/welcome.svg';
 
 const Welcome = ({ onStart }) => (
   <ButtonScreen
-    buttonText="Spiel starten"
     imageSource={welcomeImage}
-    onClick={onStart}
+    textButton1="Spiel starten"
+    onClickButton1={onStart}
   />
 );
 

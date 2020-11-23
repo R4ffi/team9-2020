@@ -5,9 +5,9 @@ import levelUpImage from './Assets/Images/level-up.svg';
 
 const LevelUp = ({ onContinue }) => (
   <ButtonScreen
-    buttonText="Nächste Saison spielen"
     imageSource={levelUpImage}
-    onClick={onContinue}
+    textButton1="Nächste Saison spielen"
+    onClickButton1={onContinue}
   />
 );
 
